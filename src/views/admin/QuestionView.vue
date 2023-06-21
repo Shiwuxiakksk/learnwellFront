@@ -1,28 +1,24 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="问题答案" prop="answer">
+      <el-form-item prop="type">
+        <el-radio-group v-model="queryParams.type">
+          <el-radio label="0">不限</el-radio>
+          <el-radio v-for="(item, index) in typeOptions" :key="index" :label="item.value" v-model="queryParams.type"
+                    :disabled="item.disabled">{{ item.label }}</el-radio>
+        </el-radio-group>
+
+      </el-form-item>
+      <el-form-item prop="answer">
         <el-input
-            v-model="queryParams.answer"
-            placeholder="请输入问题答案"
-            clearable
-            @keyup.enter.native="handleQuery"
+            v-model="queryParams.content"
+            placeholder="请输入问题内容"
         />
       </el-form-item>
-      <el-form-item label="问题图片" prop="pic">
-        <el-input
-            v-model="queryParams.pic"
-            placeholder="请输入问题图片"
-            clearable
-            @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="问题解析" prop="explain">
+      <el-form-item prop="explain">
         <el-input
             v-model="queryParams.explain"
             placeholder="请输入问题解析"
-            clearable
-            @keyup.enter.native="handleQuery"
         />
       </el-form-item>
 
@@ -61,18 +57,8 @@
             icon="el-icon-delete"
             size="mini"
             :disabled="multiple"
-            @click="handleDelete"
+            @click="handleMultiDelete"
         >删除
-        </el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-            type="warning"
-            plain
-            icon="el-icon-download"
-            size="mini"
-            @click="handleExport"
-        >导出
         </el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
@@ -80,10 +66,17 @@
 
     <el-table v-loading="loading" :data="questionList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"/>
-      <el-table-column label="问题类型" align="center" prop="type"/>
+      <el-table-column label="问题类型" align="center" prop="type">
+        <template slot-scope="scope">
+          {{typeOptions[scope.row.type-1].label}}
+        </template>
+      </el-table-column>
       <el-table-column label="问题内容" align="center" prop="content"/>
-      <el-table-column label="问题答案" align="center" prop="answer"/>
-      <el-table-column label="问题图片" align="center" prop="pic"/>
+      <el-table-column label="问题答案" align="center" >
+        <template slot-scope="scope">
+          {{printAns(scope.row)}}
+        </template>
+      </el-table-column>
       <el-table-column label="问题解析" align="center" prop="explain"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -136,12 +129,17 @@
           </el-col>
           <el-col :span="24">
             <el-form-item label="图片" prop="picture">
-
+              <el-image v-if="!isAdd && formData.pic != null"
+                        :src="formData.pic"
+                        style="width: 100px; height: 100px">
+              </el-image>
               <el-upload ref="picture"
                          class="upload-demo"
                          :action="pictureAction"
                          :before-upload="pictureBeforeUpload"
                          :multiple="false"
+                         name="file"
+                         :data="dataPart"
                          :on-success="afterUpload"
                          list-type="picture"
                          :file-list="picturefileList"
@@ -157,9 +155,12 @@
               </el-input>
             </el-form-item>
             <el-form-item label="答案" prop="answer" v-if="formData.type===1">
-              <el-radio v-for="(item, index) in ansOptions" :key="index" :label="item.value" v-model="formData.answer"
-                        :disabled="item.disabled">{{ item.label }}
-              </el-radio>
+              <el-radio-group v-model="formData.answer">
+                <el-radio v-for="(item, index) in ansOptions" :key="index" :label="item.value" :value="item.value"
+                          :disabled="item.disabled">{{ item.label }}
+                </el-radio>
+              </el-radio-group>
+
             </el-form-item>
             <el-form-item label="答案" prop="answer" v-if="formData.type===2">
               <el-checkbox v-for="(item, index) in ansOptions" :key="index"
@@ -169,10 +170,11 @@
               </el-checkbox>
             </el-form-item>
             <el-form-item label="答案" prop="answer" v-if="formData.type===4">
-              <el-radio v-for="(item, index) in judgeOptions" :key="index" :label="item.value" value="it"
-                        v-model="formData.answer"
-                        :disabled="item.disabled">{{ item.label }}
-              </el-radio>
+              <el-radio-group v-model="formData.answer">
+                <el-radio v-for="(item, index) in judgeOptions" :key="index" :label="item.value"
+                          :disabled="item.disabled">{{ item.label }}
+                </el-radio>
+              </el-radio-group>
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -223,7 +225,7 @@ export default {
       queryParams: {
         type: null,
         content: null,
-        answer: null,
+        explain: null
       },
       pageBean: {
         data: null,
@@ -237,7 +239,7 @@ export default {
       formData: {
         type: 1,
         content: '',
-        picture: null,
+        pic: null,
         answer: undefined,
 
         explain: undefined,
@@ -261,6 +263,9 @@ export default {
         explain: [],
       },
       pictureAction: null,
+      dataPart: {
+        'bucketName': 'questionbucket'
+      },
       isAdd: true,
       picturefileList: [],
       typeOptions: [
@@ -283,25 +288,33 @@ export default {
       ansOptions: [
         {
           "label": "A",
-          "value": 1
+          "value": "1"
         }, {
           "label": "B",
-          "value": 2
+          "value": "2"
         }, {
           "label": "C",
-          "value": 3
+          "value": "3"
         }, {
           "label": "D",
-          "value": 4
+          "value": "4"
         }],
       judgeOptions: [
         {
           "label": "T",
-          "value": 1
+          "value": "1"
         }, {
           "label": "F",
-          "value": 2
+          "value": "2"
         }],
+      dict: new Map([
+        ['1-1', 'A'],
+        ['1-2', 'B'],
+        ['1-3', 'C'],
+        ['1-4', 'D'],
+        ['4-1', 'T'],
+        ['4-2', 'F'],
+      ]),
     };
   },
   created() {
@@ -337,11 +350,12 @@ export default {
     },
     /** 搜索按钮操作 */
     handleQuery() {
+      this.pageBean.currentPage = 1
       this.getCount()
     },
     /** 重置按钮操作 */
     resetQuery() {
-      this.resetForm("queryForm");
+      this.resetForm("queryForm") ;
       this.handleQuery();
     },
     // 多选框选中数据
@@ -359,17 +373,26 @@ export default {
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
-      this.formData = row;
-      this.open = true;
-      this.isAdd = false;
-      this.title = "修改题目"
+      axios.get(`/api/question/${row.id}`)
+      .then(resp=>{
+        if(resp.data.code === 200){
+          this.formData = resp.data.data;
+          if(this.formData.type === 2){
+            this.answers = JSON.parse(this.formData.answer);
+          }
+          this.isAdd = false;
+          this.title = "修改题目"
+          this.open = true;
+        } else {
+          this.$message.error('根据id查询错误：'+resp.data.msg)
+        }
+      })
+
     },
     /** 提交按钮 */
     submitForm() {
       if (this.formData.type === 2) {
         this.formData.answer = JSON.stringify(this.answers);
-      } else {
-        this.formData.answer = JSON.stringify(this.formData.answer);
       }
       if (this.isAdd) {
         axios.post("/api/question", this.formData)
@@ -380,7 +403,6 @@ export default {
               } else {
                 this.$message.error('添加失败：' + resp.data.msg)
               }
-
             })
       } else {
         axios.put("/api/question", this.formData)
@@ -393,7 +415,7 @@ export default {
               }
             })
       }
-
+      this.getCount()
       console.log(this.formData)
     },
     /** 删除按钮操作 */
@@ -411,6 +433,24 @@ export default {
             this.getPagination();
           })
           .catch(() => {
+            this.$message.warning("取消了操作")
+          });
+    },
+    handleMultiDelete() {
+      this.$confirm('确定要删除吗？')
+          .then(() => {
+            axios.post("/api/question/delbatch", this.ids)
+                .then(resp => {
+                  if (resp.data.code === 200) {
+                    this.$message.success(`成功删除了${resp.data.data}条记录`);
+                  } else {
+                    this.$message.error('删除失败：' + resp.data.data);
+                  }
+                })
+            this.getCount();
+          })
+          .catch((e) => {
+            console.log(e)
             this.$message.warning("取消了操作")
           });
     },
@@ -434,19 +474,22 @@ export default {
     afterUpload(resp) {
       console.log(resp);
       if (resp.code === 200) {
-        this.formData.picture = resp.data
+        this.formData.pic = resp.data
       } else {
         this.$message.error(resp.data.msg)
       }
-    },
+    }
+    ,
     handleSizeChange(val) {
-      this.pageBean.pageSize=val
+      this.pageBean.pageSize = val
       this.getPagination()
-    },
+    }
+    ,
     handleCurrentChange(val) {
       this.pageBean.currentPage = val
       this.getPagination()
-    },
+    }
+    ,
     getPagination() {
       this.pageBean.data = this.queryParams
       axios.post("/api/question/page", this.pageBean).then(resp => {
@@ -469,19 +512,36 @@ export default {
         }
       })
     },
+    printAns(qus){
+      if(qus.type === 2){
+        let str='';
+        let parse = JSON.parse(qus.answer);
+        for(let i=0;i<4;i++){
+          if(parse[i]) str += this.dict.get(`1-${i+1}`)
+        }
+        return str;
+      } else if(qus.type === 1){
+        return this.dict.get(`1-${qus.answer}`)
+      } else if (qus.type === 4){
+        return this.dict.get(`4-${qus.answer}`)
+      } else {
+        return qus.answer;
+      }
+
+    }
 
 
   },
   mounted() {
-    this.pictureAction = `${axios.defaults.baseURL}/api/file/upload`;
+    this.pictureAction = `${axios.defaults.baseURL}/api/file/upload/`;
 
   }
 }
 </script>
 <style scoped>
-  .pagination-wrapper {
-    position: fixed;
-    bottom: 30px;
-    left: 40%;
-  }
+.pagination-wrapper {
+  position: fixed;
+  bottom: 30px;
+  left: 40%;
+}
 </style>
