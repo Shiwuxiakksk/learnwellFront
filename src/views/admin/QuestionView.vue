@@ -241,7 +241,6 @@ export default {
         content: '',
         pic: null,
         answer: undefined,
-
         explain: undefined,
       },
       rules: {
