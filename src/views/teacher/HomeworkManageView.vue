@@ -35,6 +35,14 @@
             </template>
           </el-table-column>
           <el-table-column label="问题内容" align="center" prop="content"/>
+          <el-table-column label="分值" align="center" min-width="15%">
+            <template slot-scope="scope">
+              <el-input
+                  v-model="scope.row.score"
+                  size="mini"
+                  :placeholder="5"></el-input>
+            </template>
+          </el-table-column>
           <el-table-column label="操作" align="center" class-name="small-padding" min-width="20%">
             <template slot-scope="scope">
               <el-button
@@ -190,6 +198,7 @@ export default {
         answer: undefined,
         explain: undefined,
       },
+      scores: [],
       isAdd: false,
       rules: {
         type: [{
@@ -282,8 +291,9 @@ export default {
         content: 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww',
         pic: null,
         answer: undefined,
-        explain: undefined,
-      }]
+        score: 5,
+      }],
+      scoreArray: []
     }
   },
   methods: {
@@ -325,6 +335,7 @@ export default {
       axios.get(`/api/question/bycontent?content=${this.content}`)
           .then(resp => {
             if (resp.data.code === 200) {
+
               this.dbQuestions = resp.data.data;
             } else {
               this.$message.error('搜索出现错误:' + resp.data.message);
@@ -345,9 +356,11 @@ export default {
       this.$confirm('确定要提交吗？')
           .then(() => {
             let ls = this.selectedQuestions.map(o => o.id);
+            let sc = this.selectedQuestions.map(o => o.score);
             let body = {
               'homeworkId': this.homeworkId,
-              'questionIdList': ls
+              'questionIdList': ls,
+              'scoreList': sc
             }
             axios.post("/api/hq/batch", body)
                 .then(resp => {

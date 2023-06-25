@@ -52,12 +52,17 @@ const routes = [
   //   name:'course',
   //   component: () =>import('../views/user/Course')
   // },
+  {
+        path: '/',
+        name: 'front',
+        component: () =>import('../views/frontpage/IndexView')
+    }
 ]
 
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+    mode: 'history',
+    base: process.env.BASE_URL,
+    routes
 })
 
 export default router
