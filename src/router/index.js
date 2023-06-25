@@ -27,9 +27,10 @@ const routes = [
         name: 'teacher',
         component: () =>import('../views/teacher/HomeworkManageView')
     },{
-        path: '/',
-        name: 'front',
-        component: () =>import('../views/frontpage/IndexView')
+
+        path: '/homework',
+        name: 'homework',
+        component: ()=>import('../views/student/DoHomeworkView')
     }
 ]
 
