@@ -26,7 +26,32 @@ const routes = [
     path: '/teacher',
     name: 'teacher',
     component: () =>import('../views/teacher/HomeworkManageView')
-  }
+  },
+  {
+    path:'/login',
+    name:'login',
+    component: () =>import('../views/login')
+  },
+  {
+    path:'/register',
+    name:'register',
+    component: () =>import('../views/Register')
+  },
+  {
+    path: '/user/information/:id',
+    name:'Personal',
+    component: () =>import('../views/user/InformationView')
+  },
+  {
+    path: '/user/info/:id',
+    name:'info',
+    component: () =>import('../views/user/Info')
+  },
+  // {
+  //   path: '/user/course/:id',
+  //   name:'course',
+  //   component: () =>import('../views/user/Course')
+  // },
 ]
 
 const router = new VueRouter({
