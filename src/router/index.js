@@ -6,7 +6,7 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/home',
     name: 'home',
     component: HomeView
   },
@@ -55,7 +55,7 @@ const routes = [
   {
         path: '/',
         name: 'front',
-        component: () =>import('../views/frontpage/IndexView')
+        component: () =>import('../views/frontpage/IndexView.vue')
     }
 ]
 

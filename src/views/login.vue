@@ -1,7 +1,7 @@
 <template>
     <div id="root" class="loginbox"> 
         <div class="c">
-        <h5>欢迎登录福建农林大学在线学习平台</h5>
+        <h5>欢迎登录明学在线学习平台</h5>
         <form method="post">
             账号：<input placeholder="请输入账号" type="text" class="input" required="true" v-model="username" > <br>
             密码：<input placeholder="请输入密码" type="password" class="input" required="true" v-model="password"> <br>
