@@ -6,7 +6,7 @@
 
 <script>
 
-import AuditView from "@/views/teacher/AuditView";
+import AuditView from "@/views/teacher/AuditComponent";
 import axios from "axios";
 export default {
   components: {AuditView},

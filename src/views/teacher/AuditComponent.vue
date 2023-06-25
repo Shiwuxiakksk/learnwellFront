@@ -28,7 +28,7 @@
 <script>
 
 export default {
-
+  name: "AuditComponent",
   props: {
     description: {
       type: Object,
