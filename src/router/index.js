@@ -26,6 +26,10 @@ const routes = [
     path: '/teacher',
     name: 'teacher',
     component: () =>import('../views/teacher/HomeworkManageView')
+  },{
+    path: '/comment',
+    name: 'comment',
+    component: () =>import('../views/teacher/TestVue')
   }
 ]
 
