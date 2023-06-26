@@ -1,5 +1,5 @@
 <template>
-    <div id="root" class="loginbox"> 
+    <div id="root" class="loginbox">
         <div class="c">
         <h5>欢迎登录明学在线学习平台</h5>
         <el-form method="post">
@@ -36,15 +36,12 @@ export default {
     },
     methods: {
         register(){
-            axios.post('/user/register',{   
-            },{
-                //withCredentials: true,
-                params:{
+            axios.post('/user/register',{
                     uid: this.uid,
                     name:this.username,
                     password:this.password,
-                }
-            }).then(value =>{
+                })
+            .then(value =>{
                 console.log(value)
                 if(value.status >= 200 && value.status < 300){
                     if(value.data.status == 0){
@@ -62,8 +59,8 @@ export default {
                 }
             })
         }
-        
-    },       
+
+    },
 }
 </script>
 
