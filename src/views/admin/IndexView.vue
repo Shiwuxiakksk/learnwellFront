@@ -10,7 +10,7 @@
         </el-submenu>
         <el-submenu index="2" style="background-color: #D3DCE6;">
           <template slot="title"><i class="el-icon-setting"></i>。。。</template>
-          <el-menu-item index="2-1"></el-menu-item>
+          <el-menu-item index="2-1">选课管理</el-menu-item>
           <el-menu-item index="2-2">。。。</el-menu-item>
           <el-menu-item index="2-3">用戶管理</el-menu-item>
         </el-submenu>
@@ -48,7 +48,7 @@ export default {
       subpages: new Map([
         ["2-3", 'UserView'],
         ["2-2","AnnounceView"],
-        ["2-1", 'QuestionView'],
+        ["2-1", 'StudentCourseView'],
         ["1-3", 'CourseView'],
         ["1-2", 'UserQuestView'],
         ["1-1", 'QuestionView'],
