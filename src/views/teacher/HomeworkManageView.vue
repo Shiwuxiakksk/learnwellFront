@@ -35,7 +35,7 @@
             </template>
           </el-table-column>
           <el-table-column label="问题内容" align="center" prop="content"/>
-          <el-table-column label="分值" align="center" min-width="15%">
+          <el-table-column label="分值" align="center" min-width="20%">
             <template slot-scope="scope">
               <el-input
                   v-model="scope.row.score"
@@ -187,7 +187,11 @@ import axios from "axios";
 export default {
   name: "HomeworkManageView",
   inheritAttrs: false,
-  components: {},
+  props :{
+    homeworkId: {
+      type: Number,
+    }
+  },
   data() {
     return {
       open: false,
@@ -277,7 +281,6 @@ export default {
         ['4-2', 'F'],
       ]),
       content: '',
-      homeworkId: 1,
       activeName: 'first',
       dbQuestions: [{
         type: 1,
