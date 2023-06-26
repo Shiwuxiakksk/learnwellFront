@@ -52,7 +52,7 @@ export default {
         ["2-2","AnnounceView"],
         ["2-1", 'QuestionView'],
         ["1-5",'CommentView'],
-        ["1-4",'AnnounceView']
+        ["1-4",'AnnounceView'],
         ["1-3", 'CourseView'],
         ["1-2", 'UserQuestView'],
         ["1-1", 'QuestionView'],

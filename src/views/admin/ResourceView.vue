@@ -1,22 +1,22 @@
 <template>
   <div>
-    <h1>评论管理</h1>
-    <el-form inline :model="queryForm" ref="queryForm">
-      <el-form-item label="课程名称">
-        <el-input v-model="queryForm.type"></el-input>
+    <el-form :model="queryForm" inline>
+      <el-form-item label="资源类型">
+        <el-radio-group v-model="queryForm.type">
+          <el-radio label="text">文本</el-radio>
+          <el-radio label="video">视频</el-radio>
+        </el-radio-group>
       </el-form-item>
-      <el-form-item label="内容">
-        <el-input v-model="queryForm.content"></el-input>
+      <el-form-item label="章节">
+        <el-input v-model="queryForm.name"></el-input>
       </el-form-item>
       <el-button @click="query">查询</el-button>
-      <el-button @click="resetForm('queryForm')">重置</el-button>
     </el-form>
-    <el-button @click="addFormVisible = true">添加评论</el-button>
-    <el-table :data="comments" style="width: 100%">
-      <!-- <el-table-column prop="user" label="评论者"></el-table-column> -->
-      <el-table-column prop="type" label="评论对象"></el-table-column>
-      <el-table-column prop="content" label="内容"></el-table-column>
-      <el-table-column prop="createTime" label="发布时间"></el-table-column>
+    <el-button @click="addFormVisible = true">添加资源</el-button>
+    <el-table :data="resource" style="width: 100%">
+      <el-table-column prop="name" label="资源名称"></el-table-column>
+      <el-table-column prop="type" label="资源类型"></el-table-column>
+      <el-table-column prop="url" label="内容"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
@@ -34,6 +34,7 @@
         </template>
       </el-table-column>
     </el-table>
+
     <el-pagination
       class="pagination-wrapper"
       background
@@ -44,28 +45,55 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     ></el-pagination>
-    <el-dialog :visible.sync="addFormVisible" title="添加评论">
+
+    <el-dialog :visible.sync="addFormVisible" title="添加资源">
       <el-form :model="addForm">
-        <el-form-item label="评论的课程">
-          <el-input v-model="addForm.type"></el-input>
+        <el-form-item label="资源名称">
+          <el-input v-model="addForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="评论内容">
-          <el-input v-model="addForm.content"></el-input>
+        <el-form-item label="资源类型">
+          <el-radio-group v-model="addForm.type">
+            <el-radio label="text">文本</el-radio>
+            <el-radio label="video">视频</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="文件">
+          <el-upload
+            :action="resourceAction"
+            multiple="false"
+            :file-list="fileList"
+            :on-preview="handlePreview"
+            :before-remove="beforeRemove"
+            :on-remove="handleRemove"
+            :on-success="afterUpload"
+          >
+            <el-button size="small" type="primary">点击上传</el-button>
+          </el-upload>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="addFormVisible = false">取消</el-button>
-        <el-button @click="handleAdd()">添加</el-button>
+        <el-button @click="handleAdd">提交</el-button>
       </span>
     </el-dialog>
 
-    <el-dialog :visible.sync="modifyFormVisible" title="修改公告信息">
+    <el-dialog :visible.sync="modifyFormVisible" title="修改资源信息">
       <el-form :model="modifyForm">
-        <el-form-item label="评论的课程">
-          <el-input v-model="modifyForm.type"></el-input>
+        <el-form-item label="资源名称">
+          <el-input v-model="modifyForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="评论内容">
-          <el-input v-model="modifyForm.content"></el-input>
+        <el-form-item label="资源类型">
+          <el-radio-group v-model="modifyForm.type">
+            <el-radio label="text">文本</el-radio>
+            <el-radio label="video">视频</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="文件">
+          <el-upload :action="resourceAction" 
+                      multiple="false" 
+                      name="">
+            <el-button size="small" type="primary">点击上传</el-button>
+          </el-upload>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -75,37 +103,39 @@
     </el-dialog>
   </div>
 </template>
-  
-  <script>
+
+<script>
 import axios from "axios";
 export default {
-  name: "CommentView",
+  name: "ResourceView",
 
   data() {
     return {
-      comments: [],
       addFormVisible: false,
       modifyFormVisible: false,
+      resource: [],
+      fileList: undefined,
       pageBean: {
         data: null,
         totalRows: -1,
         pageSize: 5,
         currentPage: 1,
       },
-      modifyForm: {
-        // user:undefined,
-        type: undefined,
-        content: undefined,
-      },
       addForm: {
-        // user:undefined,
+        name: undefined,
         type: undefined,
-        content: undefined,
+        url: undefined,
+      },
+      modifyForm: {
+        name: undefined,
+        type: undefined,
+        url: undefined,
       },
       queryForm: {
+        name: undefined,
         type: undefined,
-        content: undefined,
       },
+      resourceAction: null,
     };
   },
 
@@ -124,7 +154,7 @@ export default {
     },
     handleModify(index, row) {
       this.modifyFormVisible = true;
-      axios.get("/api/comment/queryById/" + row.id).then((res) => {
+      axios.get("/api/resource/queryById/" + row.id).then((res) => {
         if (res.data.code == 200) {
           console.log(res.data.data);
           this.modifyForm = res.data.data;
@@ -134,7 +164,7 @@ export default {
       });
     },
     modify() {
-      axios.put("/api/comment/updateComment", this.modifyForm).then((res) => {
+      axios.put("/api/resource", this.modifyForm).then((res) => {
         if (res.data.code == 200) {
           this.modifyFormVisible = false;
           this.$message({
@@ -149,7 +179,7 @@ export default {
       });
     },
     handleAdd() {
-      axios.post("/api/comment/addComment", this.addForm).then((res) => {
+      axios.post("/api/resource/addResource", this.addForm).then((res) => {
         if (res.data.code != 200) {
           this.$message.error(res.data.msg);
         } else {
@@ -164,13 +194,13 @@ export default {
       });
     },
     handleDelete(index, row) {
-      this.$confirm("确认删除该评论？", "提示", {
+      this.$confirm("确认删除该资源？", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       })
         .then(() => {
-          axios.delete("/api/comment/delComment/" + row.id).then((res) => {
+          axios.delete("/api/resource/deleteResource/" + row.id).then((res) => {
             if (res.data.code != 200) {
               this.$message.error(res.data.msg);
             } else {
@@ -193,7 +223,7 @@ export default {
     getCount() {
       this.pageBean.data = this.queryForm;
       axios
-        .post("/api/comment/count", this.pageBean)
+        .post("/api/resource/count", this.pageBean)
         .then((res) => {
           if (res.data.code == 200) {
             this.pageBean = res.data.data;
@@ -208,10 +238,9 @@ export default {
     },
     getPagination() {
       this.pageBean.data = this.queryForm;
-      axios.post("/api/comment/page", this.pageBean).then((res) => {
+      axios.post("/api/resource/page", this.pageBean).then((res) => {
         if (res.data.code == 200) {
-          console.log(this.comments);
-          this.comments = res.data.data;
+          this.resource = res.data.data;
         } else {
           this.$message.error(res.data.msg);
         }
@@ -226,17 +255,15 @@ export default {
       this.pageBean.currentPage = val;
       this.getPagination();
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
+    afterUpload(res){
+      if(res.data.code==200){
+        this.fileList=res.data
+      }
     },
+    
   },
 };
 </script>
-  
-  <style scoped>
-.pagination-wrapper {
-  position: fixed;
-  bottom: 30px;
-  left: 40%;
-}
+
+<style lang="scss" scoped>
 </style>

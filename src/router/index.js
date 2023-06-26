@@ -83,6 +83,16 @@ const routes = [
         path: '/homework',
         name: 'homework',
         component: () => import('../views/student/DoHomeworkView')
+    },
+    {
+        path:"/admin/resource",
+        name:'resource',
+        component:()=>import('../views/admin/ResourceView')
+    },
+    {
+        path:"/teacher/announce",
+        name:'teacherAnnounce',
+        component:()=>import('../views/teacher/AnnounceView')
     }
 ]
 
