@@ -1,6 +1,7 @@
+<!--
 <template>
   <div>
-    <AuditView :description="description" :chart-type="chartType" ></AuditView>
+    <AuditView :description="description" ></AuditView>
   </div>
 </template>
 
@@ -54,3 +55,24 @@ export default {
 <style>
 
 </style>
+-->
+<template>
+  <WrongQuestionView :course-id="courseId" :user-id="userId"/>
+</template>
+<script>
+import WrongQuestionView from "@/views/student/WrongQuestionView";
+export default {
+  components: {WrongQuestionView},
+  data(){
+    return{
+      userId: 100000,
+      courseId: 200000
+    }
+  },
+  methods: {
+
+  },
+  mounted() {
+  }
+}
+</script>

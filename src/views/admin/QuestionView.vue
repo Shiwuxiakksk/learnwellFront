@@ -527,7 +527,6 @@ export default {
       } else {
         return qus.answer;
       }
-
     }
 
 

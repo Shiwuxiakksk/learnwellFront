@@ -66,13 +66,13 @@
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-row :gutter="15">
         <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
-          <el-col :span="12">
+          <el-col :span="24">
             <el-form-item label="姓名" prop="name">
               <el-input v-model="formData.name" placeholder="请输入姓名" :disabled='true' clearable
                         :style="{width: '100%'}"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="24">
             <el-form-item label="题目内容" prop="content">
               <el-input v-model="formData.content" placeholder="请输入题目内容" :disabled='true' clearable
                         :style="{width: '100%'}"></el-input>

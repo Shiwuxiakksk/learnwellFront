@@ -215,11 +215,7 @@ export default {
   display: flex;
   height: 100%;
   padding: 10px;
-}
-
-.container {
-  display: flex; /* 使用flex布局 */
-  flex-wrap: wrap; /* 当子元素超出容器宽度时，自动换行 */
+  flex-wrap: wrap;
 }
 
 .left {

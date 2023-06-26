@@ -9,6 +9,7 @@
           <el-menu-item index="1-3">课程管理</el-menu-item>
           <el-menu-item index="1-4">公告管理</el-menu-item>
           <el-menu-item index="1-5">评论管理</el-menu-item>
+          <el-menu-item index="1-6">选课/授课管理</el-menu-item>
         </el-submenu>
         <el-submenu index="2" style="background-color: #D3DCE6;">
           <template slot="title"><i class="el-icon-setting"></i>。。。</template>
@@ -52,7 +53,8 @@ export default {
         ["2-2","AnnounceView"],
         ["2-1", 'QuestionView'],
         ["1-5",'CommentView'],
-        ["1-4",'AnnounceView']
+        ["1-4",'AnnounceView'],
+        ["1-6", 'UserCourseView'],
         ["1-3", 'CourseView'],
         ["1-2", 'UserQuestView'],
         ["1-1", 'QuestionView'],

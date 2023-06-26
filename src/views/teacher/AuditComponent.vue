@@ -20,7 +20,13 @@
           <div class="value">{{ description.minimum }}</div>
         </div>
       </div>
-      <ve-histogram :data="description.graph.chart" style="width: 520px"></ve-histogram>
+      <el-switch style="float: right;z-index: 1"
+          v-model="type"
+          active-text="折线图"
+          inactive-text="柱状图">
+      </el-switch>
+      <ve-line v-if="type" :data="description.graph.chart" style="width: 520px"></ve-line>
+      <ve-histogram v-else :data="description.graph.chart" style="width: 520px"></ve-histogram>
     </el-card>
 
   </div>
@@ -34,11 +40,12 @@ export default {
       type: Object,
       required: true
     },
-    chartType: {
-      type: Boolean,
-      required: true
-    }
   },
+  data(){
+    return {
+      type: true
+    }
+  }
 }
 </script>
 <style scoped>
