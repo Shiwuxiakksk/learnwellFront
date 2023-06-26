@@ -7,6 +7,7 @@
           <el-menu-item index="1-1">问题管理</el-menu-item>
           <el-menu-item index="1-2">错题管理</el-menu-item>
           <el-menu-item index="1-3">公告管理</el-menu-item>
+          <el-menu-item index="1-4">评论管理</el-menu-item>
         </el-submenu>
         <el-submenu index="2" style="background-color: #D3DCE6;">
           <template slot="title"><i class="el-icon-setting"></i>。。。</template>
@@ -16,7 +17,6 @@
         </el-submenu>
       </el-menu>
     </el-aside>
-
 
     <el-container>
       <el-header style="font-size: 12px">
@@ -48,6 +48,7 @@ export default {
       subpages: new Map([
         ["2-2", 'QuestionView'],
         ["2-1", 'QuestionView'],
+        ["1-4","CommentView"],
         ["1-3","AnnounceView"],
         ["1-2", 'UserQuestView'],
         ["1-1", 'QuestionView'],

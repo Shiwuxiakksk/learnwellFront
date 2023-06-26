@@ -139,21 +139,19 @@ export default {
       this.getCount();
     },
     handleAdd() {
-      axios
-        .post("http://localhost:8081/api/announce/addAnno", this.addForm)
-        .then((res) => {
-          if (res.data.code != 200) {
-            this.$message.error(res.data.msg);
-          } else {
-            this.addDialogVisible = false;
-            this.$message({
-              type: "success",
-              message: "添加成功",
-            });
-            this.addForm = {};
-            this.handleFind();
-          }
-        });
+      axios.post("/api/announce/addAnno", this.addForm).then((res) => {
+        if (res.data.code != 200) {
+          this.$message.error(res.data.msg);
+        } else {
+          this.addDialogVisible = false;
+          this.$message({
+            type: "success",
+            message: "添加成功",
+          });
+          this.addForm = {};
+          this.handleFind();
+        }
+      });
     },
     handleDelete(index, row) {
       this.$confirm("确认删除该公告？", "提示", {
@@ -162,19 +160,17 @@ export default {
         type: "warning",
       })
         .then(() => {
-          axios
-            .delete("http://localhost:8081/api/announce/deleteAnno/" + row.id)
-            .then((res) => {
-              if (res.data.code == 200) {
-                this.$message({
-                  type: "success",
-                  message: "删除成功!",
-                });
-                this.handleFind();
-              } else {
-                this.$message.error("删除失败");
-              }
-            });
+          axios.delete("/api/announce/deleteAnno/" + row.id).then((res) => {
+            if (res.data.code == 200) {
+              this.$message({
+                type: "success",
+                message: "删除成功!",
+              });
+              this.handleFind();
+            } else {
+              this.$message.error("删除失败");
+            }
+          });
         })
         .catch((e) => {
           console.log(e);
@@ -186,57 +182,49 @@ export default {
     },
     handleModify(index, row) {
       this.modifyDialogVisible = true;
-      axios
-        .get("http://localhost:8081/api/announce/queryById/" + row.id)
-        .then((res) => {
-          if (res.data.code == 200) {
-            this.modifyForm = res.data.data;
-          } else {
-            this.$message.error(res.data.msg);
-          }
-        });
+      axios.get("/api/announce/queryById/" + row.id).then((res) => {
+        if (res.data.code == 200) {
+          this.modifyForm = res.data.data;
+        } else {
+          this.$message.error(res.data.msg);
+        }
+      });
     },
     modify() {
-      axios
-        .put("http://localhost:8081/api/announce/update", this.modifyForm)
-        .then((res) => {
-          if (res.data.code == 200) {
-            this.modifyDialogVisible = false;
-            this.$message({
-              type: "success",
-              message: "修改成功!",
-            });
-            this.modifyForm = {};
-            this.handleFind();
-          } else {
-            this.$message.error(res.data.msg);
-          }
-        });
+      axios.put("/api/announce/update", this.modifyForm).then((res) => {
+        if (res.data.code == 200) {
+          this.modifyDialogVisible = false;
+          this.$message({
+            type: "success",
+            message: "修改成功!",
+          });
+          this.modifyForm = {};
+          this.handleFind();
+        } else {
+          this.$message.error(res.data.msg);
+        }
+      });
     },
     getPagination() {
       this.pageBean.data = this.queryForm;
-      axios
-        .post("http://localhost:8081/api/announce/page", this.pageBean)
-        .then((res) => {
-          if (res.data.code == 200) {
-            this.announces = res.data.data;
-          } else {
-            this.$message.error(res.data.msg);
-          }
-        });
+      axios.post("/api/announce/page", this.pageBean).then((res) => {
+        if (res.data.code == 200) {
+          this.announces = res.data.data;
+        } else {
+          this.$message.error(res.data.msg);
+        }
+      });
     },
     getCount() {
       this.pageBean.data = this.queryForm;
-      axios
-        .post("http://localhost:8081/api/announce/count", this.pageBean)
-        .then((res) => {
-          if (res.data.code == 200) {
-            this.pageBean = res.data.data;
-            this.getPagination();
-          } else {
-            this.$message.error(res.data.msg);
-          }
-        });
+      axios.post("/api/announce/count", this.pageBean).then((res) => {
+        if (res.data.code == 200) {
+          this.pageBean = res.data.data;
+          this.getPagination();
+        } else {
+          this.$message.error(res.data.msg);
+        }
+      });
     },
     handleSizeChange(val) {
       this.pageBean.pageSize = val;
