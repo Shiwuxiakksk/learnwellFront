@@ -73,7 +73,7 @@
         modifyDialogVisible: false,
         queryCondition: {
           courseId: 1,
-          //实际运行时type需指定为对应的课程编号
+          //实际运行时courseId需指定为对应的课程编号
           title: undefined,
           content: undefined,
         },
