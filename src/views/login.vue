@@ -48,7 +48,7 @@ export default {
                         alert("登录成功");
                         console.log(response.data);
                         localStorage.setItem("token",response.data.data);
-                        window.location.href="stu_home.html";
+                        this.$router.push("/front");
                     }else{alert(response.data.msg)} 
                 }
                 else{alert("登录失败")}

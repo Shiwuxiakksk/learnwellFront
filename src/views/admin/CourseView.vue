@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="课程名" >
+      <el-form-item label="课程名">
         <el-input
             v-model="queryParams.name"
             placeholder="请输入课程名"/>
@@ -19,8 +19,8 @@
 
 
     <el-table v-loading="loading" :data="courseList">
-      <el-table-column label="课程名" prop="name" />
-      <el-table-column label="课程简介" prop="intro" />
+      <el-table-column label="课程名" prop="name"/>
+      <el-table-column label="课程简介" prop="intro"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -29,14 +29,16 @@
               icon="el-icon-edit"
               @click="handleUpdate(scope.row)"
 
-          >修改</el-button>
+          >修改
+          </el-button>
           <el-button
               size="mini"
               type="text"
               icon="el-icon-delete"
               @click="handleDelete(scope.row)"
 
-          >删除</el-button>
+          >删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -125,8 +127,7 @@ export default {
         intro: null,
       },
       // 表单校验
-      rules: {
-      }
+      rules: {}
     };
   },
   created() {
@@ -167,18 +168,18 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       axios.get(`/api/course/dto/${row.id}`)
-          .then(resp=>{
-            if(resp.data.code === 200){
+          .then(resp => {
+            if (resp.data.code === 200) {
               this.formData = resp.data.data;
               this.open = true;
             } else {
-              this.$message.error('查询错误：'+resp.data.msg)
+              this.$message.error('查询错误：' + resp.data.msg)
             }
           })
     },
@@ -242,14 +243,14 @@ export default {
       })
     },
     handleConfirm() {
-      axios.put('/api/course',this.formData)
-          .then(resp=>{
-            if(resp.data.code === 200){
+      axios.put('/api/course', this.formData)
+          .then(resp => {
+            if (resp.data.code === 200) {
               this.$message.success('操作成功');
               this.getPagination()
               this.open = false;
             } else {
-              this.$message.error('操作失败：'+resp.data.msg);
+              this.$message.error('操作失败：' + resp.data.msg);
             }
           })
     }
