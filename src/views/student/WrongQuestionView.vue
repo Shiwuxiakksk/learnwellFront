@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <el-timeline class="left">
-      <el-timeline-item v-for="(hw,idx) in homeworkList" :key="idx"
+      <el-timeline-item v-for="(hw,idx) in homeworkList" :key="idx" type="primary"
                         :timestamp="hw.startTime" placement="top">
         <el-card align="center" style="width: 300px" shadow="hover">
           <div class="card-content" @click="getQuestions(hw.id)">

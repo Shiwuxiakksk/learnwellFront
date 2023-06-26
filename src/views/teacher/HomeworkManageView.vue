@@ -13,17 +13,19 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="开始时间" prop="startTime">
-                <el-date-picker v-model="homeData.startTime" format="yyyy-MM-dd" value-format="yyyy-MM-dd"
+                <el-date-picker v-model="homeData.startTime" type="datetime" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss"
                                 :style="{width: '100%'}" placeholder="请选择开始时间" clearable></el-date-picker>
+
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="结束时间" prop="endTime">
-                <el-date-picker v-model="homeData.endTime" format="yyyy-MM-dd" value-format="yyyy-MM-dd"
+                <el-date-picker v-model="homeData.endTime" type="datetime" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss"
                                 :style="{width: '100%'}" placeholder="请选择结束时间" clearable></el-date-picker>
               </el-form-item>
             </el-col>
             <el-button type="primary" @click="submitForm">保存</el-button>
+            <el-button type="danger" @click="del">删除</el-button>
           </el-form>
         </el-row>
 
@@ -35,7 +37,7 @@
             </template>
           </el-table-column>
           <el-table-column label="问题内容" align="center" prop="content"/>
-          <el-table-column label="分值" align="center" min-width="15%">
+          <el-table-column label="分值" align="center" min-width="20%">
             <template slot-scope="scope">
               <el-input
                   v-model="scope.row.score"
@@ -187,7 +189,11 @@ import axios from "axios";
 export default {
   name: "HomeworkManageView",
   inheritAttrs: false,
-  components: {},
+  props :{
+    homeworkId: {
+      type: Number,
+    }
+  },
   data() {
     return {
       open: false,
@@ -277,7 +283,6 @@ export default {
         ['4-2', 'F'],
       ]),
       content: '',
-      homeworkId: 1,
       activeName: 'first',
       dbQuestions: [{
         type: 1,
@@ -421,6 +426,22 @@ export default {
     newRequest(){
       this.reset();
       this.open=true;
+    },
+    del(){
+      this.$confirm('确定要删除吗？')
+      .then(()=>{
+        axios.delete(`/api/homework/${this.homeworkId}`)
+        .then(resp=>{
+          if(resp.data.code === 200){
+            this.$message.success('删除成功')
+          } else {
+            this.$message.error('发生了错误：'+resp.data.msg)
+          }
+        })
+      })
+      .catch((e)=>{
+        this.$message.info('取消了操作')
+      })
     }
   },
   mounted() {
