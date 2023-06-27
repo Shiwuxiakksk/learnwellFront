@@ -82,6 +82,9 @@
               <el-form-item label="uid" prop="uid">
                 <el-input v-model="dataForm.uid" type="text" placeholder="请输入uid"></el-input>
               </el-form-item>
+              <el-form-item label="password">
+                <el-input v-model="dataForm.password" type="text" placeholder="请输入新密码"></el-input>
+              </el-form-item>
               <el-form-item label="name" prop="name">
                 <el-input v-model="dataForm.name" type="text" placeholder="请输入姓名"></el-input>
               </el-form-item>
@@ -106,7 +109,7 @@ import axios from "axios";
       return {
         pictureAction: null,
         dataPart: {
-        'bucketName': 'questionbucket'
+        'bucketName': 'userbucket'
         },
         picturefileList: [],
         data:{
@@ -127,12 +130,14 @@ import axios from "axios";
           age: Number,
           name: String,
           sex:String,
+          password:""
         },
         
         Visiable: false,
       };
     },
     mounted() {
+      this.pictureAction = `${axios.defaults.baseURL}/api/file/upload/`;
       this.load();
     },
     methods: {
@@ -145,7 +150,7 @@ import axios from "axios";
             this.data.age = res.data.data.age;
             this.data.createDate = res.data.data.createTime;
             this.data.name = res.data.data.name;
-            this.data.sex = res.data.data.sex == 1 ? "男" : "女";
+            this.data.sex = res.data.data.sex;
             this.data.type = res.data.data.type;
             if(res.data.data.type===0) this.data.type="管理员";
             else if (res.data.data.type===1)this.data.type="学生";
@@ -193,9 +198,9 @@ import axios from "axios";
     afterUpload(resp) {
       console.log(resp);
       if (resp.code === 200) {
-        this.formData.pic = resp.data
+        this.dataForm.avatar = resp.data
       } else {
-        this.$message.error(resp.data.msg)
+        this.$message.error(resp.data.data)
       }
     }
     ,

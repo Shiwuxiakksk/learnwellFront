@@ -93,7 +93,15 @@ export default {
     },
     logout(){
 
-    }
+    },
+  },
+  mounted(){
+    axios.post(`/user/authCheck/0`).then(res=>{
+         if(res.data.code!=200){
+            this.$message.error(res.data.msg)
+            this.$router.push("/login");
+         }
+      })
   }
 }
 </script>

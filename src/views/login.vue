@@ -51,7 +51,8 @@ export default {
                         localStorage.setItem("token",response.data.data.token);
                         localStorage.setItem("id",response.data.data.id);
                         localStorage.setItem("type",response.data.data.type);
-                        this.$router.push("/");
+                        if(response.data.data.type ==0)this.$router.push("/admin");
+                        else this.$router.push("/");
                     }
                     else{alert(response.data.msg)} 
                 }
