@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     toCourseLearn(courseId){
-      this.$router.push(`/teacher/courseLearn/${courseId}`);
+      this.$router.push(`/teacher/manage/${courseId}`);
     },
     fetchSelectedCourses(studentId) {
       // 使用学生ID查询所选课程数据

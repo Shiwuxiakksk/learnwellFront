@@ -9,51 +9,40 @@
         text-color="#fff"
         active-text-color="#ffd04b">
       <el-menu-item index="1" @click="toIndex">明学在线学习平台</el-menu-item>
-      <el-menu-item index="2"><a href="" target="_blank">公告信息</a></el-menu-item>
-      <el-menu-item index="3" v-if="!isLogin"  @click="toAdmin">后台管理</el-menu-item>
-      <el-menu-item index="4" v-if="!isLogin" @click="toLogin">马上登陆</el-menu-item>
-      <el-menu-item index="5" v-if="!isLogin" @click="toReg">点击注册</el-menu-item>
-      <el-submenu index="3" v-if="isLogin&&!loginType" >
-        <template slot="title" >我的课程</template>
-        <el-menu-item index="3-1" @click="toCourse">课程学习</el-menu-item>
-        <el-menu-item index="3-2" @click="toSelect">课程选修</el-menu-item>
-      </el-submenu>
-      <el-menu-item index="4" v-if="isLogin&&!loginType"><a href="" target="_blank">我的作业</a></el-menu-item>
-      <el-menu-item index="5" v-if="isLogin&&!loginType"><a href="" target="_blank">我的成绩</a></el-menu-item>
-      <el-submenu index="6" v-if="isLogin&&!loginType">
+      <el-menu-item index="2" v-if="!isLogin"  @click="toAdmin">后台管理</el-menu-item>
+      <el-menu-item index="3" v-if="!isLogin" @click="toLogin">马上登陆</el-menu-item>
+      <el-menu-item index="4" v-if="!isLogin" @click="toReg">点击注册</el-menu-item>
+      <el-menu-item index="2" v-if="isLogin&&!loginType"@click="toCourse">课程学习</el-menu-item>
+      <el-menu-item index="3" v-if="isLogin&&!loginType" @click="toSelectCourse">课程选修</el-menu-item>
+      <el-submenu index="4" v-if="isLogin&&!loginType">
         <template slot="title">学生</template>
-        <el-menu-item index="6-1" @click="toInfo">个人信息</el-menu-item>
-        <el-menu-item index="6-2" @click="loginOut">退出登陆</el-menu-item>
+        <el-menu-item index="4-1">个人信息</el-menu-item>
+        <el-menu-item index="4-2">退出登陆</el-menu-item>
       </el-submenu>
-      <el-submenu index="3" v-if="isLogin&&loginType" >
+      <el-submenu index="2" v-if="isLogin&&loginType" >
         <template slot="title" >课程</template>
-        <el-menu-item index="3-1" @click="toAddCourse">发布课程</el-menu-item>
-        <el-menu-item index="3-2" @click="toTeacherCourse">管理课程</el-menu-item>
+        <el-menu-item index="2-1" @click="toAddCourse">发布课程</el-menu-item>
+        <el-menu-item index="2-2" @click="toTeacherCourse">管理课程</el-menu-item>
       </el-submenu>
-      <el-submenu index="4" v-if="isLogin&&loginType">
-        <template slot="title" >作业</template>
-        <el-menu-item index="4-1">发布作业</el-menu-item>
-        <el-menu-item index="4-2">管理作业</el-menu-item>
-      </el-submenu>
-      <el-menu-item index="5" v-if="isLogin&&loginType"><a href="" target="_blank">数据统计</a></el-menu-item>
-      <el-submenu index="6" v-if="isLogin&&loginType">
+      <el-menu-item index="3" v-if="isLogin&&loginType" @click="toTeacherHomework">作业</el-menu-item>
+      <el-menu-item index="4" v-if="isLogin&&loginType"><a href="" target="_blank">数据统计</a></el-menu-item>
+      <el-submenu index="5" v-if="isLogin&&loginType">
         <template slot="title" >教师</template>
-        <el-menu-item index="6-1">个人信息</el-menu-item>
-        <el-menu-item index="6-2">退出登陆</el-menu-item>
+        <el-menu-item index="5-1" @click="toInfo">个人信息</el-menu-item>
+        <el-menu-item index="5-2">退出登陆</el-menu-item>
       </el-submenu>
     </el-menu>
   </div>
 </template>
 
 <script>
-  import axios from "axios";
+
 export default {
   name: "IndexView",
   data() {
     return {
       activeIndex: '1',
       isLogin:true,
-      // loginType:false,
       loginType:true,
     }
   },
@@ -66,8 +55,20 @@ export default {
     }
   },
   methods: {
+    toTeacherHomework(){
+      const targetRoute = "/teacher/homework";
+      if (this.$route.path !== targetRoute) {
+        this.$router.push(targetRoute);
+      }
+    },
     toTeacherCourse() {
       const targetRoute = "/teacher/Course/1";
+      if (this.$route.path !== targetRoute) {
+        this.$router.push(targetRoute);
+      }
+    },
+    toSelectCourse(){
+      const targetRoute = "/student/selectCourse";
       if (this.$route.path !== targetRoute) {
         this.$router.push(targetRoute);
       }
@@ -81,27 +82,22 @@ export default {
     setActiveIndex() {
       const routePath = this.getCurrentRoute || this.$route.path; // 如果你使用了Vuex，使用getter获取当前路由路径；否则，使用$route.path获取当前路由路径
       if (routePath.includes('/student/course')) {
-        this.activeIndex = '3';
-      } else if (routePath.includes('/announcement')) {
         this.activeIndex = '2';
       } else if (routePath.includes('/admin')) {
-        this.activeIndex = '3';
+        this.activeIndex = '2';
       } else if (routePath.includes('/login')) {
-        this.activeIndex = '4';
+        this.activeIndex = '3';
       } else if (routePath.includes('/register')) {
-        this.activeIndex = '5';
+        this.activeIndex = '4';
+      } else if (routePath.includes('/student/selectCourse')) {
+        this.activeIndex = '3';
+      } else if (routePath.includes('/teacher/addCourse')) {
+        this.activeIndex = '2-1';
+      } else if (routePath.includes('/teacher/Course')) {
+        this.activeIndex = '2-2';
       } else {
         this.activeIndex = '1';
       }
-    },
-    loginOut(){
-        axios.post("/user/loginOut").then(res=>{
-          console.log(res.data);
-            if(res.data.code==200){
-              this.$message.success('退出成功')
-              this.$router.push("/login");
-            }
-        })
     },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
@@ -130,20 +126,14 @@ export default {
         this.$router.push(targetRoute);
       }
     },
+    toInfo(){
+      const targetRoute = "/info/1";
+      if (this.$route.path !== targetRoute) {
+        this.$router.push(targetRoute);
+      }
+    },
     toCourse(){
       const targetRoute = "/student/course/100000";
-      if (this.$route.path !== targetRoute) {
-        this.$router.push(targetRoute);
-      }
-    },
-    toSelect(){
-      const targetRoute = "/selectCourse";
-      if (this.$route.path !== targetRoute) {
-        this.$router.push(targetRoute);
-      }
-    },
-    toInfo(){
-      const targetRoute = "/user/information/"+localStorage.getItem("id");
       if (this.$route.path !== targetRoute) {
         this.$router.push(targetRoute);
       }
