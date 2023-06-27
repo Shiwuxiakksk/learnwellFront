@@ -3,7 +3,7 @@
         <div class="c">
         <h5>欢迎登录明学在线学习平台</h5>
         <form method="post">
-            账号：<input placeholder="请输入账号" type="text" class="input" required="true" v-model="username" > <br>
+            uid：<input placeholder="请输入uid" type="text" class="input" required="true" v-model="uid" > <br>
             密码：<input placeholder="请输入密码" type="password" class="input" required="true" v-model="password"> <br>
             <button type="submit" @click.prevent="login()" :disabled="!canSubmit">登录</button>
             <a href="Register">注册</a>
@@ -17,15 +17,15 @@ export default {
     name:'login',
     data(){
         return{
-            username:'',
+            uid:'',
             password:'',
         }
     },
     computed:{
         canSubmit(){//两者其中一个为空，登录按键不可使用
-            const name = this.username
+            const uid = this.uid
             const pass = this.password
-            return Boolean(name&&pass)
+            return Boolean(uid&&pass)
         }
     },
     methods: {
@@ -38,7 +38,7 @@ export default {
                 method: "POST",
                 url: `/user/login`,
                 data:{
-                    name:this.username,
+                    name:this.uid,
                     password:this.password,
                 },
             }).then(response=> {

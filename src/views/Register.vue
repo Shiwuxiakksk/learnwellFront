@@ -1,5 +1,5 @@
 <template>
-    <div id="root" class="loginbox">
+    <div id="root" class="loginbox"> 
         <div class="c">
         <h5>欢迎登录明学在线学习平台</h5>
         <el-form method="post">
@@ -36,12 +36,15 @@ export default {
     },
     methods: {
         register(){
-            axios.post('/user/register',{
+            axios.post('/user/register',{   
+            },{
+                //withCredentials: true,
+                params:{
                     uid: this.uid,
                     name:this.username,
                     password:this.password,
-                })
-            .then(value =>{
+                }
+            }).then(value =>{
                 console.log(value)
                 if(value.status >= 200 && value.status < 300){
                     if(value.data.status == 0){
@@ -50,7 +53,7 @@ export default {
                         localStorage.setItem("token",value.data.data);
                         // localStorage.setItem("stu",JSON.stringify())
                         // window.location.href="stu_home.html";
-                        window.location.href="finish_info.html";
+                        this.$router.push("/front");
                     }else{
                         alert(value.data.msg)
                     }
@@ -59,8 +62,8 @@ export default {
                 }
             })
         }
-
-    },
+        
+    },       
 }
 </script>
 

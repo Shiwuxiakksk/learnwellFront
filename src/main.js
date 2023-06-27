@@ -21,7 +21,8 @@ axios.defaults.baseURL = 'http://localhost:8081';
 // axios.defaults.withCredentials = true;
 axios.interceptors.request.use(function(config) {
   // config.headers.authorization = localStorage.getItem("token");
-  config.headers.authorization = 'admin'
+  config.headers.authorization = 'admin',
+  config.headers.Authorization = window.sessionStorage.getItem('token')
   return config;
 }, function(error) {
   console.log('err', error);
