@@ -3,9 +3,9 @@
         <div class="c">
         <h5>欢迎登录明学在线学习平台</h5>
         <el-form method="post">
-            uid:<input placeholder="请输入uid" type="text" class="input" required="true" v-model="uid" > <br>
-            姓名：<input placeholder="请输入账号" type="text" class="input" required="true" v-model="username" > <br>
-            密码：<input placeholder="请输入密码" type="password" class="input" required="true" v-model="password"> <br>
+            uid:<input placeholder="请输入uid" type="text" class="input" required="true" v-model="data.uid" > <br>
+            姓名：<input placeholder="请输入账号" type="text" class="input" required="true" v-model="data.name" > <br>
+            密码：<input placeholder="请输入密码" type="password" class="input" required="true" v-model="data.password"> <br>
             <button type="reset">重置</button>
             <button type="submit" @click.prevent="register()" :disabled="!canSubmit">注册</button>
         </el-form>
@@ -19,9 +19,12 @@ export default {
     name:'register',
     data(){
         return{
-            uid:'',
-            username:'',
-            password:'',
+            data:{
+                uid:'',
+                name:'',
+                password:'',
+            }
+            
         }
         rulers:{
 
@@ -29,37 +32,24 @@ export default {
     },
     computed:{
         canSubmit(){//两者其中一个为空，登录按键不可使用
-            const name = this.username
-            const pass = this.password
-            return Boolean(name&&pass)
+            const uid = this.data.uid
+            const name = this.data.name
+            const pass = this.data.password
+            return Boolean(uid&&name&&pass)
         }
     },
     methods: {
         register(){
-            axios.post('/user/register',{   
-            },{
-                //withCredentials: true,
-                params:{
-                    uid: this.uid,
-                    name:this.username,
-                    password:this.password,
-                }
-            }).then(value =>{
-                console.log(value)
-                if(value.status >= 200 && value.status < 300){
-                    if(value.data.status == 0){
+            console.log(this.uid)
+            axios.post('/user/register',this.data).then(value =>{
+                console.log(value)  
+                    if(value.data.code == 200){
                         alert("注册成功，请完成信息完善");
                         console.log(value.data.data)
-                        localStorage.setItem("token",value.data.data);
-                        // localStorage.setItem("stu",JSON.stringify())
-                        // window.location.href="stu_home.html";
-                        this.$router.push("/front");
+                        this.$router.push("/login");
                     }else{
                         alert(value.data.msg)
                     }
-                }else{
-                    alert("注册失败，请重新注册")
-                }
             })
         }
         
