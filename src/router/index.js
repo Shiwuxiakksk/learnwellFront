@@ -65,7 +65,7 @@ const routes = [
   {
     path: '/student/courseLearn/:cid',
     name:'courseLearn',
-    component: () =>import('../views/student/CourseLearnView')
+    component: () =>import('../views/student/CourseLearnView.vue')
   },
   {
     path: '/teacher/addCourse/:tid',

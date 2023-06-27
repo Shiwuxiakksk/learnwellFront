@@ -3,18 +3,21 @@
     <NavBar></NavBar>
     <div class="course-list">
       <h2 class="course-heading">所选课程列表</h2>
-      <ul class="course-items">
-        <li v-for="(course, idx) in selectedCourses.data" :key="idx" class="course-item">
-          <div class="course-item-inner">
-            <div class="course-cover">
-              <img :src="course.cover" alt="课程封面" @click="toCourseLearn(course.courseId)">
+      <div class="course-container">
+        <ul class="course-items" v-for="(course, idx) in selectedCourses.data" :key="idx">
+          <li class="course-item">
+            <div class="course-item-inner">
+              <div class="course-cover">
+                <img :src="course.cover" alt="课程封面" @click="toCourseLearn(course.courseId)">
+              </div>
+              <div class="course-details">
+                <h3 class="course-title" @click="toCourseLearn(course.courseId)">{{ course.courseName }}</h3>
+              </div>
             </div>
-            <div class="course-details">
-              <h3 class="course-title" @click="toCourseLearn(course.courseId)">{{ course.courseName }}</h3>
-            </div>
-          </div>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </div>
+
     </div>
   </div>
 </template>
@@ -56,6 +59,11 @@ export default {
 }
 </script>
 <style>
+.course-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 每行三个课程项 */
+  grid-gap: 20px; /* 课程项之间的间距 */
+}
 .course-list {
   padding: 20px;
 }
