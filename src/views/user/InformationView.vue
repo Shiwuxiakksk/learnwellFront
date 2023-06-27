@@ -1,17 +1,6 @@
 <template>
     <div>
-      <div class="PersonTop">
-        <div class="PersonTop_img">
-          <img :src="user.avatar" />
-        </div>
-        <div class="PersonTop_text">
-          <div class="user_text">
-            <div class="user_name">
-              <span style="margin-right: 400px"> {{ user.name }} </span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <nav-bar-view></nav-bar-view>
       <div class="person_body">
         <div class="person_body_left">
           <el-card class="box-card" :body-style="{ padding: '0px' }">
@@ -55,8 +44,9 @@
 <script>
 import axios from "axios";
 import info from "./Info.vue";
+import NavBarView from '../frontpage/NavBarView.vue';
 export default {
-  components: {info},
+  components: {info, NavBarView},
   name: "Personal",
   data() {
     return {
@@ -81,7 +71,7 @@ export default {
           this.user.id=res.data.data.id;
           this.user.name=res.data.data.name;
           this.user.uid=res.data.data.uid;
-          this.user.avatar=res.data.avatar;
+          this.user.avatar=res.data.data.avatar;
           this.user.type=res.data.data.type;
         })
         .catch((err) => {
@@ -128,6 +118,7 @@ export default {
     margin-left: 20px;
     overflow: hidden;
     border-radius: 20px;
+
   }
   
   .PersonTop_img img {
