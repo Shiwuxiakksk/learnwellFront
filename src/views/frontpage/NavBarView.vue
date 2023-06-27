@@ -49,7 +49,7 @@ export default {
     return {
       activeIndex: '1',
       isLogin:true,
-      loginType:true,
+      loginType:false,
     }
   },
   created() {

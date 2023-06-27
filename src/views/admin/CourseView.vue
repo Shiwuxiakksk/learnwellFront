@@ -70,21 +70,21 @@
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-row :gutter="15">
         <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
-          <el-col :span="12">
+          <el-col :span="24">
             <el-form-item label="课程名" prop="name">
               <el-input v-model="formData.name" placeholder="请输入课程名"
                         :style="{width: '100%'}"></el-input>
             </el-form-item>
 
           </el-col>
-          <el-col :span="12">
+          <el-col :span="24">
             <el-form-item label="开始时间" prop="startTime">
               <el-input v-model="formData.startTime" placeholder="请输入开始时间"
                         :style="{width: '100%'}"></el-input>
             </el-form-item>
 
           </el-col>
-          <el-col :span="12">
+          <el-col :span="24">
             <el-form-item label="结束时间" prop="endTime">
               <el-input v-model="formData.endTime" placeholder="请输入结束时间"
                         :style="{width: '100%'}"></el-input>
@@ -92,8 +92,8 @@
 
           </el-col>
           <el-col :span="24">
-            <el-form-item label="简介" prop="note">
-              <el-input v-model="formData.note" type="textarea" placeholder="请输入课程简介"
+            <el-form-item label="简介" prop="intro">
+              <el-input v-model="formData.intro" type="textarea" placeholder="请输入课程简介"
                         :autosize="{minRows: 4, maxRows: 4}" :style="{width: '100%'}"></el-input>
             </el-form-item>
           </el-col>

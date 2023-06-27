@@ -22,10 +22,6 @@ const routes = [
     path: '/admin',
     name: 'admin',
     component: () => import('../views/admin/IndexView')
-  },{
-    path: '/teacher',
-    name: 'teacher',
-    component: () =>import('../views/teacher/HomeworkManageView')
   },
   {
     path:'/login',
@@ -56,11 +52,15 @@ const routes = [
     path: '/student/course/:id',
     name:'course',
     component: () =>import('../views/student/CourseView')
+  },{
+    path: '/student/dohomework/:hid',
+    name: 'dohomework',
+    component: ()=>import('../views/student/DoHomeworkView')
   },
   {
     path: '/student/courseLearn/:cid',
     name:'courseLearn',
-    component: () =>import('../views/student/CourseLearnView')
+    component: () =>import('../views/student/Index')
   },
   {
     path: '/teacher/addCourse/:tid',
@@ -72,9 +72,9 @@ const routes = [
         name: 'front',
         component: () =>import('../views/frontpage/IndexView.vue')
     },{
-    path: '/test',
+    path: '/test/:id',
     name: 'test',
-    component: ()=>import('../views/teacher/HomeworkListView')
+    component: ()=>import('../views/student/StuComm')
   }
 ]
 

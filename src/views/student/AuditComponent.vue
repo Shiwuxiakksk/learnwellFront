@@ -25,8 +25,8 @@
           active-text="折线图"
           inactive-text="柱状图">
       </el-switch>
-      <ve-line v-if="type" :data="description.graph.chart" style="width: 520px"></ve-line>
-      <ve-histogram v-else :data="description.graph.chart" style="width: 520px"></ve-histogram>
+      <ve-line v-if="type" :data="description.graph.chart" ></ve-line>
+      <ve-histogram v-else :data="description.graph.chart" ></ve-histogram>
     </el-card>
 
   </div>
@@ -55,7 +55,6 @@ export default {
 }
 .card {
   margin-bottom: 20px;
-  width: 600px;
 }
 .title {
   font-size: 18px;
