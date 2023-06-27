@@ -7,12 +7,6 @@
               v-model="queryParams.name"
               placeholder="请输入课程名"/>
         </el-form-item>
-        <el-form-item label="关键词">
-          <el-input
-              v-model="queryParams.intro"
-              placeholder="请输入关键词"
-          />
-        </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         </el-form-item>
@@ -67,7 +61,7 @@ export default {
             pageBean: {
                 data: null,
                 totalRows: -1,
-                pageSize: 10,
+                pageSize: 8,
                 currentPage: 1,
             },
             queryParams: {
@@ -86,17 +80,19 @@ export default {
             this.getCount();
         },
         toCourseLearn(courseId){
-        this.$router.push(`/student/courseLearn/${courseId}`);
+          this.$router.push(`/student/courseLearn/${courseId}`);
         },
         addCourse(id){
-            this.dataForm.courseId=id;
-            this.dataForm.userId=localStorage.getItem("userId")
+            this.dataForm.courseId=parseInt(id);
+            this.dataForm.userId=parseInt(localStorage.getItem("id"))
+            console.log(this.dataForm)
             this.$confirm('确定要选择这门课程吗').then(()=>{
-                axios.get('/api/course/addCourse',this.dataForm).then(res=>{
-                if(res.data.code==200){
-                    this.getPagination();
-                    this.$message.error('选择成功')
-                }
+                axios.post('/api/ucr/addCourse',this.dataForm).then(res=>{
+                  if(res.data.code==200){
+                      this.getPagination();
+                      this.$message.success('选择成功')
+                  }
+                  else this.$message.error(res.data.msg)
                 })
             }).catch(()=>{
             })

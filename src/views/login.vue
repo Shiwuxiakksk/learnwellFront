@@ -6,15 +6,6 @@
             uid：<input placeholder="请输入uid" type="text" class="input" required="true" v-model="uid" > <br>
             密码：<input placeholder="请输入密码" type="password" class="input" required="true" v-model="password"> <br>
             <button type="submit" @click.prevent="login()" :disabled="!canSubmit">登录</button>
-            <el-select v-model="value" placeholder="请选择">
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"                  
-                   size="small">
-                </el-option>
-              </el-select>
             <a href="Register">注册</a>
         </form></div>
     </div>
@@ -28,17 +19,6 @@ export default {
         return{
             password:"",
             uid:"",
-            options: [{
-                value: '0',
-                label: '学生'
-                }, {
-                value: '1',
-                label: '教师'
-                }, {
-                value: '2',
-                label: '管理员'
-                }],
-                value: ''
             }
     },
     computed:{
@@ -67,8 +47,10 @@ export default {
                 if(response.data.code >= 200 && response.data.code < 300){
                     if(response.data.code == 200){
                         alert("登录成功");
-                        console.log(response.data);
-                        localStorage.setItem("token",response.data.data);
+                        console.log(response.data.data);
+                        localStorage.setItem("token",response.data.data.token);
+                        localStorage.setItem("id",response.data.data.id);
+                        localStorage.setItem("type",response.data.data.type);
                         this.$router.push("/");
                     }
                     else{alert(response.data.msg)} 

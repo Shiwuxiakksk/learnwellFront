@@ -16,13 +16,13 @@
       <el-submenu index="3" v-if="isLogin&&!loginType" >
         <template slot="title" >我的课程</template>
         <el-menu-item index="3-1" @click="toCourse">课程学习</el-menu-item>
-        <el-menu-item index="3-2" >课程选修</el-menu-item>
+        <el-menu-item index="3-2" @click="toSelect">课程选修</el-menu-item>
       </el-submenu>
       <el-menu-item index="4" v-if="isLogin&&!loginType"><a href="" target="_blank">我的作业</a></el-menu-item>
       <el-menu-item index="5" v-if="isLogin&&!loginType"><a href="" target="_blank">我的成绩</a></el-menu-item>
       <el-submenu index="6" v-if="isLogin&&!loginType">
         <template slot="title">学生</template>
-        <el-menu-item index="6-1">个人信息</el-menu-item>
+        <el-menu-item index="6-1" @click="toInfo">个人信息</el-menu-item>
         <el-menu-item index="6-2">退出登陆</el-menu-item>
       </el-submenu>
       <el-submenu index="3" v-if="isLogin&&loginType" >
@@ -122,6 +122,18 @@ export default {
     },
     toCourse(){
       const targetRoute = "/student/course/100000";
+      if (this.$route.path !== targetRoute) {
+        this.$router.push(targetRoute);
+      }
+    },
+    toSelect(){
+      const targetRoute = "/selectCourse";
+      if (this.$route.path !== targetRoute) {
+        this.$router.push(targetRoute);
+      }
+    },
+    toInfo(){
+      const targetRoute = "/user/information/"+localStorage.getItem("id");
       if (this.$route.path !== targetRoute) {
         this.$router.push(targetRoute);
       }
