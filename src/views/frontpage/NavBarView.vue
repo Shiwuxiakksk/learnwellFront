@@ -13,7 +13,11 @@
       <el-menu-item index="3" v-if="!isLogin"  @click="toAdmin">后台管理</el-menu-item>
       <el-menu-item index="4" v-if="!isLogin" @click="toLogin">马上登陆</el-menu-item>
       <el-menu-item index="5" v-if="!isLogin" @click="toReg">点击注册</el-menu-item>
-      <el-menu-item index="3" v-if="isLogin&&!loginType" @click="toCourse">课程学习</el-menu-item>
+      <el-submenu index="3" v-if="isLogin&&!loginType" >
+        <template slot="title" >我的课程</template>
+        <el-menu-item index="3-1" @click="toCourse">课程学习</el-menu-item>
+        <el-menu-item index="3-2" >课程选修</el-menu-item>
+      </el-submenu>
       <el-menu-item index="4" v-if="isLogin&&!loginType"><a href="" target="_blank">我的作业</a></el-menu-item>
       <el-menu-item index="5" v-if="isLogin&&!loginType"><a href="" target="_blank">我的成绩</a></el-menu-item>
       <el-submenu index="6" v-if="isLogin&&!loginType">
