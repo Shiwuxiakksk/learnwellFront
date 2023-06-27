@@ -53,7 +53,8 @@ export default {
     return {
       activeIndex: '1',
       isLogin:true,
-      loginType:false,
+      // loginType:false,
+      loginType:true,
     }
   },
   created() {

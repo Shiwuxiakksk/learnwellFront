@@ -8,18 +8,22 @@
     <div>
       <el-button icon="el-icon-arrow-left" @click="back" circle/>
       <el-button icon="el-icon-arrow-right" @click="next" circle/>
+      <el-button icon="el-icon-plus" @click="showEdit"/>
     </div>
     <div>
-      <iframe style="width: 100%;min-height: 65vh" :src="resourceList[active].url"></iframe>
+      <iframe v-if="!edit" :key="key" style="width: 100%;min-height: 65vh" :src="resourceList[active].url"></iframe>
+      <RichTextComponent v-else :key="key"></RichTextComponent>
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import RichTextComponent from "@/views/teacher/RichTextComponent";
 
 export default {
-  name: "ResourceLearnView",
+  name: "ResourcePublishView",
+  components: {RichTextComponent},
   props: {
     courseId: {
       type: Number,
@@ -30,6 +34,12 @@ export default {
     return {
       resourceList: [],
       active: 0,
+      edit: false,
+      key: new Date(),
+      formData: {
+        name: null,
+        url: null,
+      }
     }
   },
   methods: {
@@ -50,6 +60,32 @@ export default {
     },
     back() {
       if (this.active > 0) this.active -= 1;
+    },
+    showEdit(){
+      this.edit = true;
+    },
+    setUrl(name,str){
+      this.formData.name = name;
+      this.formData.url = str;
+      axios.post('/api/resource/addResource',this.formData)
+      .then(resp=>{
+        if(resp.data.code === 200){
+          axios.post("/api/cr",{
+            resourceId: resp.data.data,
+            courseId: this.courseId
+          }).then(resp2=>{
+            if(resp2.data.code === 200){
+              this.$message.success('操作成功！');
+              this.edit = false;
+              this.getResources();
+            } else {
+              this.$message.error('操作失败！'+resp.data.msg);
+            }
+          })
+        } else {
+          this.$message.error('操作失败！'+resp.data.msg);
+        }
+      })
     }
   },
   mounted() {

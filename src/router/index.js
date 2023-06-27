@@ -63,6 +63,16 @@ const routes = [
     component: () =>import('../views/teacher/CourseView')
   },
   {
+    path: '/teacher/manage/:cid',
+    name:'manage',
+    component: () =>import('../views/teacher/Index')
+  },
+  {
+    path: '/teacher/homework',
+    name:'homework',
+    component: () =>import('../views/teacher/HomeworkListView')
+  },
+  {
     path: '/student/courseLearn/:cid',
     name:'courseLearn',
     component: () =>import('../views/student/Index')

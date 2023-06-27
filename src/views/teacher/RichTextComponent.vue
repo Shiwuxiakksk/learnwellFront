@@ -1,5 +1,6 @@
 <template>
   <div>
+    <el-input v-model="name" placeholder="输入标题"/>
     <el-tiptap
         v-model="content"
         :extensions="extensions"
@@ -93,7 +94,8 @@ export default {
         new Indent() // 减少缩进
       ],
       // 编辑器的内容
-      content: ''
+      content: '',
+      name: '',
     };
   },
   methods: {
@@ -107,7 +109,7 @@ export default {
           .then(resp=>{
             if(resp.data.code === 200){
               this.$message.success('操作成功！');
-              this.$parent.setUrl(resp.data.data);
+              this.$parent.setUrl(this.name, resp.data.data);
             } else {
               this.$message.error('发送了错误：'+resp.data.msg)
             }

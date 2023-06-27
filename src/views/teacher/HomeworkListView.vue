@@ -103,6 +103,7 @@ export default {
     }
   },
   mounted() {
+    this.userId = localStorage.getItem('teacherId')
     this.getCourseList()
   }
 }

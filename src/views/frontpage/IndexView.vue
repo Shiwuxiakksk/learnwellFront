@@ -54,6 +54,7 @@ export default {
     return {
       activeIndex: '1',
       isLogin:true,
+      // loginType:true,
       loginType:true,
       imgwrap:[
         'http://1.15.248.74:9000/frontpagebucket/lunbo1.jpg',
