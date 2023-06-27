@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^1.4.0",
     "core-js": "^3.8.3",
+    "element-tiptap": "^1.27.1",
     "element-ui": "^2.15.13",
     "moment": "^2.29.4",
     "v-charts": "^1.19.0",

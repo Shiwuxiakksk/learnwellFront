@@ -81,8 +81,8 @@ export default {
   data() {
     return {
       fits: ['fill', 'contain', 'cover', 'none', 'scale-down'],
-      studentId: 100000,
-      homeworkId: 230000,
+      studentId: 10,
+
       questions: [],
       judgeRes: [],
       already: false,
@@ -99,13 +99,15 @@ export default {
     };
   },
   mounted() {
+    this.studentId = localStorage.getItem('studentId');
+    this.homeworkId = this.$route.params.hid;
     axios.get(`/api/uh/exist?userId=${this.studentId}&homeworkId=${this.homeworkId}`)
     .then(resp=>{
       if(resp.data.code === 200){
         if(resp.data.data){
-        } else {
           this.$message.info('你已提交过该作业');
           this.already = true;
+        } else {
         }
         this.initQuestionList();
       } else {

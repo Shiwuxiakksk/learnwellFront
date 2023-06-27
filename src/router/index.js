@@ -22,10 +22,6 @@ const routes = [
     path: '/admin',
     name: 'admin',
     component: () => import('../views/admin/IndexView')
-  },{
-    path: '/teacher',
-    name: 'teacher',
-    component: () =>import('../views/teacher/HomeworkManageView')
   },
   {
     path:'/login',
@@ -56,6 +52,10 @@ const routes = [
     path: '/student/course/:id',
     name:'course',
     component: () =>import('../views/student/CourseView')
+  },{
+    path: '/student/dohomework/:hid',
+    name: 'dohomework',
+    component: ()=>import('../views/student/DoHomeworkView')
   },
   {
     path: '/teacher/course/:id',
@@ -63,9 +63,19 @@ const routes = [
     component: () =>import('../views/teacher/CourseView')
   },
   {
+    path: '/teacher/manage/:cid',
+    name:'manage',
+    component: () =>import('../views/teacher/Index')
+  },
+  {
+    path: '/teacher/homework',
+    name:'homework',
+    component: () =>import('../views/teacher/HomeworkListView')
+  },
+  {
     path: '/student/courseLearn/:cid',
     name:'courseLearn',
-    component: () =>import('../views/student/CourseLearnView.vue')
+    component: () =>import('../views/student/Index')
   },
   {
     path: '/teacher/addCourse/:tid',
@@ -79,7 +89,7 @@ const routes = [
     },{
     path: '/test',
     name: 'test',
-    component: ()=>import('../views/teacher/HomeworkListView')
+    component: ()=>import('../views/student/StuComm')
   }
 ]
 
