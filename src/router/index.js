@@ -58,6 +58,11 @@ const routes = [
     component: () =>import('../views/student/CourseView')
   },
   {
+    path: '/teacher/course/:id',
+    name:'course',
+    component: () =>import('../views/teacher/CourseView')
+  },
+  {
     path: '/student/courseLearn/:cid',
     name:'courseLearn',
     component: () =>import('../views/student/CourseLearnView')
