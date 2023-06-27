@@ -47,7 +47,9 @@
 </template>
 
 <script>
-import NavBar from "@/views/frontpage/NavBarView.vue"
+import NavBar from "@/views/frontpage/NavBarView.vue";
+import axios from "axios";
+import { duration } from "moment";
 export default {
   name: "IndexView",
   data() {
@@ -72,9 +74,35 @@ export default {
       this.$router.push("/admin");
     },
   },
-  components: { NavBar
+  mounted() {
+    axios.get("/api/announce/getEarliestGlobalAnno").then((res) => {
+      if (res.data.code == 200) {
+        console.log(res.data.data);
+        const date = new Date(res.data.data.createTime);
+        const formattedTime = `${date.getFullYear()}-${padZero(
+          date.getMonth() + 1
+        )}-${padZero(date.getDate())} ${padZero(date.getHours())}:${padZero(
+          date.getMinutes()
+        )}:${padZero(date.getSeconds())}`;
+        this.$notify({
+          title: "最新公告",
+          message: `
+          <p>${res.data.data.title}: ${res.data.data.content}</p>
+          <p style="font-size: 12px; color: #999">${formattedTime}</p>
+        `,
+          dangerouslyUseHTMLString: true,
+          duration: 0,
+          position: "bottom-right",
+        });
+      } else {
+        this.$message.error("无法获取最新公告");
+      }
+    });
   },
-
+  components: { NavBar },
+};
+function padZero(num) {
+  return num < 10 ? `0${num}` : num;
 }
 </script>
 <style>
