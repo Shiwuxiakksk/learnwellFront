@@ -12,6 +12,16 @@
             placeholder="请输入关键词"
         />
       </el-form-item>
+      <el-form-item label="开始日期">
+        <el-input
+            v-model="queryParams.startTime"
+            placeholder="请输入开始日期"/>
+      </el-form-item>
+      <el-form-item label="结束日期">
+        <el-input
+            v-model="queryParams.endTime"
+            placeholder="请输入结束日期"/>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
       </el-form-item>
@@ -21,6 +31,8 @@
     <el-table v-loading="loading" :data="courseList">
       <el-table-column label="课程名" prop="name"/>
       <el-table-column label="课程简介" prop="intro"/>
+      <el-table-column label="开始日期" prop="startTime"/>
+      <el-table-column label="结束日期" prop="endTime"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -60,9 +72,24 @@
         <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
           <el-col :span="12">
             <el-form-item label="课程名" prop="name">
-              <el-input v-model="formData.name" placeholder="请输入课程名" :disabled='true' clearable
+              <el-input v-model="formData.name" placeholder="请输入课程名"
                         :style="{width: '100%'}"></el-input>
             </el-form-item>
+
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="开始时间" prop="startTime">
+              <el-input v-model="formData.startTime" placeholder="请输入开始时间"
+                        :style="{width: '100%'}"></el-input>
+            </el-form-item>
+
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="结束时间" prop="endTime">
+              <el-input v-model="formData.endTime" placeholder="请输入结束时间"
+                        :style="{width: '100%'}"></el-input>
+            </el-form-item>
+
           </el-col>
           <el-col :span="24">
             <el-form-item label="简介" prop="note">
@@ -124,6 +151,8 @@ export default {
       formData: {
         id: -1,
         name: null,
+        startTime:null,
+        endTime:null,
         intro: null,
       },
       // 表单校验
@@ -151,6 +180,8 @@ export default {
         name: null,
         cover: null,
         intro: null,
+        startTime:null,
+        endTime:null,
         createTime: null,
         updateTime: null,
         status: null,
