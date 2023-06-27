@@ -23,7 +23,7 @@
       <el-submenu index="6" v-if="isLogin&&!loginType">
         <template slot="title">学生</template>
         <el-menu-item index="6-1" @click="toInfo">个人信息</el-menu-item>
-        <el-menu-item index="6-2">退出登陆</el-menu-item>
+        <el-menu-item index="6-2" @click="loginOut">退出登陆</el-menu-item>
       </el-submenu>
       <el-submenu index="3" v-if="isLogin&&loginType" >
         <template slot="title" >课程</template>
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-
+  import axios from "axios";
 export default {
   name: "IndexView",
   data() {
@@ -92,6 +92,15 @@ export default {
       } else {
         this.activeIndex = '1';
       }
+    },
+    loginOut(){
+        axios.post("/user/loginOut").then(res=>{
+          console.log(res.data);
+            if(res.data.code==200){
+              this.$message.success('退出成功')
+              this.$router.push("/login");
+            }
+        })
     },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
