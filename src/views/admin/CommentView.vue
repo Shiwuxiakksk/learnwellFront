@@ -70,7 +70,6 @@ export default {
   data() {
     return {
       comments: [],
-      courses: [],
       addFormVisible: false,
       modifyFormVisible: false,
       pageBean: {
@@ -104,16 +103,6 @@ export default {
     query() {
       this.pageBean.currentPage = 1;
       this.getCount();
-    },
-    getCourses() {
-      axios.get("/api/course").then((res) => {
-        if (res.data.code == 200) {
-          this.courses = res.data.data;
-          console.log("0"+this.courses);
-        } else {
-          this.$message.error("无法获取课程列表");
-        }
-      });
     },
     handleModify(index, row) {
       this.modifyFormVisible = true;

@@ -2,8 +2,8 @@
   <div>
     <h1>公告栏管理</h1>
     <el-form inline="true" :model="queryForm">
-      <el-form-item label="课程编号">
-        <el-input v-model="queryForm.courseId"></el-input>
+      <el-form-item label="课程名称">
+        <el-input v-model="queryForm.name"></el-input>
       </el-form-item>
       <el-form-item label="标题">
         <el-input v-model="queryForm.title"></el-input>
@@ -16,12 +16,12 @@
     <el-button @click="addDialogVisible = true">添加新公告</el-button>
     <el-table :data="announces" style="width: 100%">
       <!-- <el-table-column prop="id" label="编号" width="180"> </el-table-column> -->
-      <el-table-column prop="courseId" label="所属课程"></el-table-column>
+      <el-table-column prop="name" label="所属课程"></el-table-column>
       <el-table-column prop="title" label="标题"></el-table-column>
       <el-table-column prop="content" label="简介"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button type="info" @click="handle">查看详情</el-button>
+          <!-- <el-button type="info" @click="handle">查看详情</el-button> -->
           <el-button
             type="primary"
             @click="handleModify(scope.$index, scope.row)"
@@ -48,9 +48,9 @@
     ></el-pagination>
 
     <el-dialog :visible.sync="addDialogVisible" title="新增公告">
-      <el-form :model="modifyForm" rules="rules">
+      <el-form :model="addForm" rules="rules">
         <el-form-item label="课程编号">
-          <el-input v-model="addForm.courseId"></el-input>
+          <el-input v-model="addForm.courseId" readonly="true"></el-input>
         </el-form-item>
         <el-form-item label="标题">
           <el-input v-model="addForm.title"></el-input>
@@ -102,7 +102,7 @@ export default {
         currentPage: 1,
       },
       addForm: {
-        courseId: undefined,
+        courseId: 0,
         title: undefined,
         content: undefined,
       },
@@ -112,7 +112,7 @@ export default {
         content: undefined,
       },
       queryForm: {
-        courseId: undefined,
+        name: undefined,
         title: undefined,
         content: undefined,
       },
