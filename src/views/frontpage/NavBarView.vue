@@ -13,7 +13,11 @@
       <el-menu-item index="3" v-if="!isLogin"  @click="toAdmin">后台管理</el-menu-item>
       <el-menu-item index="4" v-if="!isLogin" @click="toLogin">马上登陆</el-menu-item>
       <el-menu-item index="5" v-if="!isLogin" @click="toReg">点击注册</el-menu-item>
-      <el-menu-item index="3" v-if="isLogin&&!loginType" @click="toCourse">课程学习</el-menu-item>
+      <el-submenu index="3" v-if="isLogin&&!loginType" >
+        <template slot="title" >我的课程</template>
+        <el-menu-item index="3-1" @click="toCourse">课程学习</el-menu-item>
+        <el-menu-item index="3-2" >课程选修</el-menu-item>
+      </el-submenu>
       <el-menu-item index="4" v-if="isLogin&&!loginType"><a href="" target="_blank">我的作业</a></el-menu-item>
       <el-menu-item index="5" v-if="isLogin&&!loginType"><a href="" target="_blank">我的成绩</a></el-menu-item>
       <el-submenu index="6" v-if="isLogin&&!loginType">
@@ -21,10 +25,10 @@
         <el-menu-item index="6-1">个人信息</el-menu-item>
         <el-menu-item index="6-2">退出登陆</el-menu-item>
       </el-submenu>
-      <el-submenu index="3" v-if="isLogin&&loginType">
+      <el-submenu index="3" v-if="isLogin&&loginType" >
         <template slot="title" >课程</template>
-        <el-menu-item index="3-1">发布课程</el-menu-item>
-        <el-menu-item index="3-2">管理课程</el-menu-item>
+        <el-menu-item index="3-1" @click="toAddCourse">发布课程</el-menu-item>
+        <el-menu-item index="3-2" @click="toTeacherCourse">管理课程</el-menu-item>
       </el-submenu>
       <el-submenu index="4" v-if="isLogin&&loginType">
         <template slot="title" >作业</template>
@@ -61,6 +65,18 @@ export default {
     }
   },
   methods: {
+    toTeacherCourse() {
+      const targetRoute = "/teacher/Course/1";
+      if (this.$route.path !== targetRoute) {
+        this.$router.push(targetRoute);
+      }
+    },
+    toAddCourse(){
+      const targetRoute = "/teacher/addCourse/1";
+      if (this.$route.path !== targetRoute) {
+        this.$router.push(targetRoute);
+      }
+    },
     setActiveIndex() {
       const routePath = this.getCurrentRoute || this.$route.path; // 如果你使用了Vuex，使用getter获取当前路由路径；否则，使用$route.path获取当前路由路径
       if (routePath.includes('/student/course')) {
@@ -81,19 +97,34 @@ export default {
       console.log(key, keyPath);
     },
     toIndex(){
-      this.$router.push("/");
+      const targetRoute = "/";
+      if (this.$route.path !== targetRoute) {
+        this.$router.push(targetRoute);
+      }
     },
     toAdmin(){
-      this.$router.push("/admin");
+      const targetRoute = "/admin";
+      if (this.$route.path !== targetRoute) {
+        this.$router.push(targetRoute);
+      }
     },
     toReg(){
-      this.$router.push("/register");
+      const targetRoute = "/register";
+      if (this.$route.path !== targetRoute) {
+        this.$router.push(targetRoute);
+      }
     },
     toLogin(){
-      this.$router.push("/login");
+      const targetRoute = "/login";
+      if (this.$route.path !== targetRoute) {
+        this.$router.push(targetRoute);
+      }
     },
     toCourse(){
-      this.$router.push("/student/course/100000");
+      const targetRoute = "/student/course/100000";
+      if (this.$route.path !== targetRoute) {
+        this.$router.push(targetRoute);
+      }
     }
   }
 }
