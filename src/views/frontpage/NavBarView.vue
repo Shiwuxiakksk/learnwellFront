@@ -10,20 +10,20 @@
         active-text-color="#ffd04b">
       <el-menu-item index="1" @click="toIndex">明学在线学习平台</el-menu-item>
       <el-menu-item index="2"><a href="" target="_blank">公告信息</a></el-menu-item>
-      <el-menu-item index="3" v-if="!isLogin"  @click="toAdmin">后台管理</el-menu-item>
+      <el-menu-item index="3" v-if="!isLogin" @click="toAdmin">后台管理</el-menu-item>
       <el-menu-item index="4" v-if="!isLogin" @click="toLogin">马上登陆</el-menu-item>
       <el-menu-item index="5" v-if="!isLogin" @click="toReg">点击注册</el-menu-item>
-      <el-submenu index="3" v-if="isLogin&&!loginType" >
+      <el-submenu index="3" v-if="isLogin && !loginType" >
         <template slot="title" >我的课程</template>
         <el-menu-item index="3-1" @click="toCourse">课程学习</el-menu-item>
         <el-menu-item index="3-2" @click="toSelect">课程选修</el-menu-item>
       </el-submenu>
-      <el-menu-item index="4" v-if="isLogin&&!loginType"><a href="" target="_blank">我的作业</a></el-menu-item>
-      <el-menu-item index="5" v-if="isLogin&&!loginType"><a href="" target="_blank">我的成绩</a></el-menu-item>
+      <el-menu-item index="4" v-if="isLogin&&!loginType" ><a href="" target="_blank">我的作业</a></el-menu-item>
+      <el-menu-item index="5" v-if="isLogin&&!loginType" ><a href="" target="_blank">我的成绩</a></el-menu-item>
       <el-submenu index="6" v-if="isLogin&&!loginType">
         <template slot="title">学生</template>
         <el-menu-item index="6-1" @click="toInfo">个人信息</el-menu-item>
-        <el-menu-item index="6-2" @click="loginOut">退出登陆</el-menu-item>
+        <el-menu-item index="6-2" v-if="isLogin" @click="loginOut">退出登陆</el-menu-item>
       </el-submenu>
       <el-submenu index="3" v-if="isLogin&&loginType" >
         <template slot="title" >课程</template>
@@ -38,8 +38,8 @@
       <el-menu-item index="5" v-if="isLogin&&loginType"><a href="" target="_blank">数据统计</a></el-menu-item>
       <el-submenu index="6" v-if="isLogin&&loginType">
         <template slot="title" >教师</template>
-        <el-menu-item index="6-1">个人信息</el-menu-item>
-        <el-menu-item index="6-2">退出登陆</el-menu-item>
+        <el-menu-item index="6-1" @click="toInfo">个人信息</el-menu-item>
+        <el-menu-item index="6-2" v-if="isLogin" @click="loginOut">退出登陆</el-menu-item>
       </el-submenu>
     </el-menu>
   </div>
@@ -52,7 +52,7 @@ export default {
   data() {
     return {
       activeIndex: '1',
-      isLogin:true,
+      isLogin:false,
       loginType:false,
     }
   },
@@ -63,6 +63,16 @@ export default {
     $route(to, from) {
       this.setActiveIndex(); // 监听路由变化，更新activeIndex
     }
+  },
+  mounted(){
+      console.log(localStorage.getItem("type"))
+      if(localStorage.getItem("type")===""){
+        this.isLogin=false;
+      }
+      else this.isLogin=true;
+
+      if(localStorage.getItem("type")==2) this.loginType=true;
+      else this.loginType=false;
   },
   methods: {
     toTeacherCourse() {
@@ -98,6 +108,9 @@ export default {
           console.log(res.data);
             if(res.data.code==200){
               this.$message.success('退出成功')
+              localStorage.setItem("token","");
+              localStorage.setItem("id","");
+              localStorage.setItem("type","");
               this.$router.push("/login");
             }
         })

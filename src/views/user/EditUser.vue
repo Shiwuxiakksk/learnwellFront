@@ -78,7 +78,7 @@ export default {
           this.data.uid = res.data.data.uid;
           this.data.age = res.data.data.age;
           this.data.name = res.data.data.name;
-          this.data.sex = res.data.data.sex == 1 ? "男" : "女";
+          this.data.sex = res.data.data.sex;
         })
         .catch((err) => {
           console.log(err);
