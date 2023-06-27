@@ -6,16 +6,39 @@
         <el-image :src="item" ></el-image>
       </el-carousel-item>
     </el-carousel>
+    <h1>热门课程</h1>
     <el-row>
-      <el-col :span="8" v-for="(o, index) in imgwrap1" :key="o" :offset="index > 0 ? 2 : 0">
+      <el-col :span="8" :offset="2">
         <el-card :body-style="{ padding: '0px' }">
-          <el-image :src="imgwrap1[index]" class="image"></el-image>
+          <img src='http://1.15.248.74:9000/coursebucket/2023-06-25_225217.jpg' class="image">
           <div style="padding: 14px;">
-            <span>好吃的汉堡</span>
-            <div class="bottom clearfix">
-              <time class="time">{{ currentDate }}</time>
-              <el-button type="text" class="button">了解详情</el-button>
-            </div>
+            <h3>操作系统</h3>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="8" :offset="2">
+        <el-card :body-style="{ padding: '0px' }">
+          <img src='http://1.15.248.74:9000/coursebucket/2023-06-25_225304.jpg' class="image">
+          <div style="padding: 14px;">
+            <h3>计算机网络</h3>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="8" :offset="2">
+        <el-card :body-style="{ padding: '0px' }">
+          <img src='http://1.15.248.74:9000/coursebucket/2023-06-25_225329.jpg' class="image">
+          <div style="padding: 14px;">
+            <h3>计算机组成原理</h3>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="8" :offset="2">
+        <el-card :body-style="{ padding: '0px' }">
+          <img src='http://1.15.248.74:9000/coursebucket/Snipaste_2023-06-27_14-52-24.jpg' class="image">
+          <div style="padding: 14px;">
+            <h3>数据结构</h3>
           </div>
         </el-card>
       </el-col>
@@ -33,12 +56,10 @@ export default {
       isLogin:true,
       loginType:true,
       imgwrap:[
-        'http://1.15.248.74:9000/questionbucket/12471769252233230.jpg',
-          'http://1.15.248.74:9000/coursebucket/7367572056151466.jpg'
-      ],
-      imgwrap1:[
-        'http://1.15.248.74:9000/questionbucket/12471769252233230.jpg',
-        'http://1.15.248.74:9000/coursebucket/7367572056151466.jpg'
+        'http://1.15.248.74:9000/frontpagebucket/lunbo1.jpg',
+        'http://1.15.248.74:9000/frontpagebucket/lunbo2.jpg',
+        'http://1.15.248.74:9000/frontpagebucket/lunbo3.jpg',
+
       ],
     }
   },

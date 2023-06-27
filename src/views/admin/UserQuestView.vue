@@ -62,7 +62,7 @@
     >
     </el-pagination>
 
-    <!-- 添加或修改【请填写功能名称】对话框 -->
+    <!-- 对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-row :gutter="15">
         <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
