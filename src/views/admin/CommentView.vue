@@ -2,8 +2,11 @@
   <div>
     <h1>评论管理</h1>
     <el-form inline :model="queryForm" ref="queryForm">
+      <el-form-item label="评论者">
+        <el-input v-model="queryForm.name"></el-input>
+      </el-form-item>
       <el-form-item label="课程名称">
-        <el-input v-model="queryForm.type"></el-input>
+        <el-input v-model="queryForm.courseName"></el-input>
       </el-form-item>
       <el-form-item label="内容">
         <el-input v-model="queryForm.content"></el-input>
@@ -11,10 +14,9 @@
       <el-button @click="query">查询</el-button>
       <el-button @click="resetForm('queryForm')">重置</el-button>
     </el-form>
-    <el-button @click="addFormVisible = true">添加评论</el-button>
     <el-table :data="comments" style="width: 100%">
-      <!-- <el-table-column prop="user" label="评论者"></el-table-column> -->
-      <el-table-column prop="type" label="评论对象"></el-table-column>
+      <el-table-column prop="name" label="评论者"></el-table-column>
+      <el-table-column prop="courseName" label="评论的课程"></el-table-column>
       <el-table-column prop="content" label="内容"></el-table-column>
       <el-table-column prop="createTime" label="发布时间"></el-table-column>
       <el-table-column label="操作">
@@ -34,6 +36,7 @@
         </template>
       </el-table-column>
     </el-table>
+
     <el-pagination
       class="pagination-wrapper"
       background
@@ -44,26 +47,9 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     ></el-pagination>
-    <el-dialog :visible.sync="addFormVisible" title="添加评论">
-      <el-form :model="addForm">
-        <el-form-item label="评论的课程">
-          <el-input v-model="addForm.type"></el-input>
-        </el-form-item>
-        <el-form-item label="评论内容">
-          <el-input v-model="addForm.content"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="addFormVisible = false">取消</el-button>
-        <el-button @click="handleAdd()">添加</el-button>
-      </span>
-    </el-dialog>
 
-    <el-dialog :visible.sync="modifyFormVisible" title="修改公告信息">
+    <el-dialog :visible.sync="modifyFormVisible" title="修改评论信息">
       <el-form :model="modifyForm">
-        <el-form-item label="评论的课程">
-          <el-input v-model="modifyForm.type"></el-input>
-        </el-form-item>
         <el-form-item label="评论内容">
           <el-input v-model="modifyForm.content"></el-input>
         </el-form-item>
@@ -84,6 +70,7 @@ export default {
   data() {
     return {
       comments: [],
+      courses: [],
       addFormVisible: false,
       modifyFormVisible: false,
       pageBean: {
@@ -93,17 +80,12 @@ export default {
         currentPage: 1,
       },
       modifyForm: {
-        // user:undefined,
-        type: undefined,
-        content: undefined,
-      },
-      addForm: {
-        // user:undefined,
-        type: undefined,
+        id: undefined,
         content: undefined,
       },
       queryForm: {
-        type: undefined,
+        name:undefined,
+        courseName: undefined,
         content: undefined,
       },
     };
@@ -111,6 +93,7 @@ export default {
 
   mounted() {
     this.handleFind();
+    this.getCourses();
   },
 
   methods: {
@@ -122,12 +105,23 @@ export default {
       this.pageBean.currentPage = 1;
       this.getCount();
     },
+    getCourses() {
+      axios.get("/api/course").then((res) => {
+        if (res.data.code == 200) {
+          this.courses = res.data.data;
+          console.log("0"+this.courses);
+        } else {
+          this.$message.error("无法获取课程列表");
+        }
+      });
+    },
     handleModify(index, row) {
       this.modifyFormVisible = true;
-      axios.get("/api/comment/queryById/" + row.id).then((res) => {
+      axios.get("/api/uc/" + row.id).then((res) => {
         if (res.data.code == 200) {
           console.log(res.data.data);
-          this.modifyForm = res.data.data;
+          this.modifyForm.id = res.data.data.commentId;
+          this.modifyForm.content=res.data.data.content;
         } else {
           this.$message.error(res.data.msg);
         }
@@ -148,21 +142,6 @@ export default {
         }
       });
     },
-    handleAdd() {
-      axios.post("/api/comment/addComment", this.addForm).then((res) => {
-        if (res.data.code != 200) {
-          this.$message.error(res.data.msg);
-        } else {
-          this.addFormVisible = false;
-          this.$message({
-            type: "success",
-            message: "添加成功",
-          });
-          this.addForm = {};
-          this.handleFind();
-        }
-      });
-    },
     handleDelete(index, row) {
       this.$confirm("确认删除该评论？", "提示", {
         confirmButtonText: "确定",
@@ -170,7 +149,7 @@ export default {
         type: "warning",
       })
         .then(() => {
-          axios.delete("/api/comment/delComment/" + row.id).then((res) => {
+          axios.delete("/api/uc/" + row.id).then((res) => {
             if (res.data.code != 200) {
               this.$message.error(res.data.msg);
             } else {
@@ -193,7 +172,7 @@ export default {
     getCount() {
       this.pageBean.data = this.queryForm;
       axios
-        .post("/api/comment/count", this.pageBean)
+        .post("/api/uc/count", this.pageBean)
         .then((res) => {
           if (res.data.code == 200) {
             this.pageBean = res.data.data;
@@ -208,7 +187,7 @@ export default {
     },
     getPagination() {
       this.pageBean.data = this.queryForm;
-      axios.post("/api/comment/page", this.pageBean).then((res) => {
+      axios.post("/api/uc/page", this.pageBean).then((res) => {
         if (res.data.code == 200) {
           console.log(this.comments);
           this.comments = res.data.data;
