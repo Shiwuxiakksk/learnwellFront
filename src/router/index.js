@@ -69,7 +69,7 @@ const routes = [
     },{
         path: '/test',
         name: 'test',
-        component: ()=>import('../views/teacher/HomeworkListView')
+        component: ()=>import('../views/teacher/TestVue')
     }
 ]
 
