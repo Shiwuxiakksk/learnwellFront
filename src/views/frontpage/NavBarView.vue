@@ -21,9 +21,9 @@
         <el-menu-item index="6-1">个人信息</el-menu-item>
         <el-menu-item index="6-2">退出登陆</el-menu-item>
       </el-submenu>
-      <el-submenu index="3" v-if="isLogin&&loginType">
+      <el-submenu index="3" v-if="isLogin&&loginType" >
         <template slot="title" >课程</template>
-        <el-menu-item index="3-1">发布课程</el-menu-item>
+        <el-menu-item index="3-1" @click="toAddCourse">发布课程</el-menu-item>
         <el-menu-item index="3-2">管理课程</el-menu-item>
       </el-submenu>
       <el-submenu index="4" v-if="isLogin&&loginType">
@@ -49,7 +49,7 @@ export default {
     return {
       activeIndex: '1',
       isLogin:true,
-      loginType:false,
+      loginType:true,
     }
   },
   created() {
@@ -61,6 +61,9 @@ export default {
     }
   },
   methods: {
+    toAddCourse(){
+      this.$router.push("/teacher/addCourse/1");
+    },
     setActiveIndex() {
       const routePath = this.getCurrentRoute || this.$route.path; // 如果你使用了Vuex，使用getter获取当前路由路径；否则，使用$route.path获取当前路由路径
       if (routePath.includes('/student/course')) {
