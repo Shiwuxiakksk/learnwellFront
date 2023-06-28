@@ -28,6 +28,7 @@
       <el-submenu index="4" v-if="isLogin&&loginType">
         <template slot="title" >教师</template>
         <el-menu-item index="4-1" @click="toInfo">个人信息</el-menu-item>
+        <el-menu-item index="4-2" v-if="isLogin" @click="loginOut">退出登陆</el-menu-item>
       </el-submenu>
     </el-menu>
   </div>
