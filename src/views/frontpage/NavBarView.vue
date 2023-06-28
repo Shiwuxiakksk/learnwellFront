@@ -55,11 +55,11 @@ export default {
     }
   },
   mounted(){
-    console.log(localStorage.getItem("type"))
-    if(localStorage.getItem("type")===""){
-      this.isLogin=false;
-    }
-    else this.isLogin=true;
+      console.log(localStorage.getItem("type"))
+      if(localStorage.getItem("type")==="" || localStorage.getItem("type")=="null"){
+        this.isLogin=false;
+      }
+      else this.isLogin=true;
 
     if(localStorage.getItem("type")==2) this.loginType=true;
     else this.loginType=false;
@@ -149,7 +149,16 @@ export default {
       }
     },
     toInfo(){
-      const targetRoute = "/user/information/"+localStorage.getItem("id");
+      var targetRoute="";
+      if(localStorage.getItem("type")=="1"){
+         targetRoute = "/user/information/"+localStorage.getItem("studentId");
+      }
+      else if(localStorage.getItem("type")=="2"){
+        targetRoute = "/user/information/"+localStorage.getItem("teacherId");
+      }
+      else {
+        targetRoute = "/user/information/"+localStorage.getItem("Id");
+      }
       if (this.$route.path !== targetRoute) {
         this.$router.push(targetRoute);
       }

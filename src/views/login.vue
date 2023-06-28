@@ -49,8 +49,18 @@ export default {
                         alert("登录成功");
                         console.log(response.data.data);
                         localStorage.setItem("token",response.data.data.token);
-                        localStorage.setItem("id",response.data.data.id);
+
+                        if(response.data.data.type == "0"){
+                            localStorage.setItem("Id",response.data.data.id);
+                        }else if(response.data.data.type == "2"){
+                            localStorage.setItem("teacherId",response.data.data.id);
+                        }
+                        else{
+                            localStorage.setItem("studentId",response.data.data.id);
+                        }
+
                         localStorage.setItem("type",response.data.data.type);
+                        console.log()
                         if(response.data.data.type ==0)this.$router.push("/admin");
                         else this.$router.push("/");
                     }

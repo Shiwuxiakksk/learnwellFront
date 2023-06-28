@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <el-dialog title="弹窗" :visible.sync="detailVisible" width="35%">
     <el-card>
       <el-descriptions class="margin-top" title="简介" :column="2" border>
@@ -111,4 +111,4 @@ export default {
   width: 80px;
   height: 80px;
 }
-</style>
+</style> -->

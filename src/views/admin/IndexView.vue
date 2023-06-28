@@ -44,7 +44,7 @@
 </template>
 
 <script>
-
+import axios from "axios";
 export default {
   name: "AdminView",
   data() {
@@ -97,6 +97,7 @@ export default {
   },
   mounted(){
     axios.post(`/user/authCheck/0`).then(res=>{
+      console.log(res.data)
          if(res.data.code!=200){
             this.$message.error(res.data.msg)
             this.$router.push("/login");
