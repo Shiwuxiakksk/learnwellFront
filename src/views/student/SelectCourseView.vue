@@ -54,10 +54,6 @@ export default {
                 courseId:"",
                 userId:""
             },
-            queryParams: {
-                name: '',
-                intro: ''
-            },
             pageBean: {
                 data: null,
                 totalRows: -1,

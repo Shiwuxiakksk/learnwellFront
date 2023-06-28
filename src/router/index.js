@@ -49,7 +49,7 @@ const routes = [
     component: () =>import('../views/user/Info')
   },
   {
-    path: '/selectCourse',
+    path: '/course/selectCourse',
     name:'course',
     component: () =>import('../views/student/SelectCourseView')
   },
@@ -61,11 +61,6 @@ const routes = [
     path: '/student/dohomework/:hid',
     name: 'dohomework',
     component: ()=>import('../views/student/DoHomeworkView')
-  },
-  ,{
-    path: '/student/selectCourse',
-    name: 'selectCourse',
-    component: ()=>import('../views/student/SelectCourseView')
   },
   {
     path: '/teacher/course/:id',

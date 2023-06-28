@@ -13,11 +13,11 @@
       <el-menu-item index="3" v-if="!isLogin" @click="toLogin">马上登陆</el-menu-item>
       <el-menu-item index="4" v-if="!isLogin" @click="toReg">点击注册</el-menu-item>
       <el-menu-item index="2" v-if="isLogin&&!loginType"@click="toCourse">课程学习</el-menu-item>
-      <el-menu-item index="3" v-if="isLogin&&!loginType" @click="toSelectCourse">课程选修</el-menu-item>
+      <el-menu-item index="3" v-if="isLogin&&!loginType" @click="toSelect">课程选修</el-menu-item>
       <el-submenu index="4" v-if="isLogin&&!loginType">
         <template slot="title">学生</template>
-        <el-menu-item index="4-1">个人信息</el-menu-item>
-        <el-menu-item index="4-2">退出登陆</el-menu-item>
+        <el-menu-item index="4-1" @click="toInfo">个人信息</el-menu-item>
+        <el-menu-item index="4-2" v-if="isLogin" @click="loginOut">退出登陆</el-menu-item>
       </el-submenu>
       <el-submenu index="2" v-if="isLogin&&loginType" >
         <template slot="title" >课程</template>
@@ -25,25 +25,25 @@
         <el-menu-item index="2-2" @click="toTeacherCourse">管理课程</el-menu-item>
       </el-submenu>
       <el-menu-item index="3" v-if="isLogin&&loginType" @click="toTeacherHomework">作业</el-menu-item>
-      <el-menu-item index="4" v-if="isLogin&&loginType"><a href="" target="_blank">数据统计</a></el-menu-item>
-      <el-submenu index="5" v-if="isLogin&&loginType">
+      <el-submenu index="4" v-if="isLogin&&loginType">
         <template slot="title" >教师</template>
-        <el-menu-item index="5-1" @click="toInfo">个人信息</el-menu-item>
-        <el-menu-item index="5-2">退出登陆</el-menu-item>
+        <el-menu-item index="4-1" @click="toInfo">个人信息</el-menu-item>
+        <el-menu-item index="4-2" v-if="isLogin" @click="loginOut">退出登陆</el-menu-item>
       </el-submenu>
     </el-menu>
   </div>
 </template>
 
 <script>
-
+import axios from "axios";
 export default {
   name: "IndexView",
   data() {
     return {
       activeIndex: '1',
-      isLogin:true,
-      loginType:true,
+      isLogin:false,
+      loginType:false,
+
     }
   },
   created() {
@@ -53,6 +53,16 @@ export default {
     $route(to, from) {
       this.setActiveIndex(); // 监听路由变化，更新activeIndex
     }
+  },
+  mounted(){
+    console.log(localStorage.getItem("type"))
+    if(localStorage.getItem("type")===""){
+      this.isLogin=false;
+    }
+    else this.isLogin=true;
+
+    if(localStorage.getItem("type")==2) this.loginType=true;
+    else this.loginType=false;
   },
   methods: {
     toTeacherHomework(){
@@ -67,8 +77,8 @@ export default {
         this.$router.push(targetRoute);
       }
     },
-    toSelectCourse(){
-      const targetRoute = "/student/selectCourse";
+    toSelect(){
+      const targetRoute = "/course/selectCourse";
       if (this.$route.path !== targetRoute) {
         this.$router.push(targetRoute);
       }
@@ -99,6 +109,18 @@ export default {
         this.activeIndex = '1';
       }
     },
+    loginOut(){
+      axios.post("/user/loginOut").then(res=>{
+        console.log(res.data);
+        if(res.data.code==200){
+          this.$message.success('退出成功')
+          localStorage.setItem("token","");
+          localStorage.setItem("id","");
+          localStorage.setItem("type","");
+          this.$router.push("/login");
+        }
+      })
+    },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
@@ -127,7 +149,7 @@ export default {
       }
     },
     toInfo(){
-      const targetRoute = "/info/1";
+      const targetRoute = "/user/information/"+localStorage.getItem("id");
       if (this.$route.path !== targetRoute) {
         this.$router.push(targetRoute);
       }
