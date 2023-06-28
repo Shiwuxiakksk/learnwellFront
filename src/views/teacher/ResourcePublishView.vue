@@ -8,10 +8,10 @@
     <div>
       <el-button icon="el-icon-arrow-left" @click="back" circle/>
       <el-button icon="el-icon-arrow-right" @click="next" circle/>
-      <el-button icon="el-icon-plus" @click="showEdit"/>
+      <el-button v-if="!edit" icon="el-icon-plus" @click="showEdit"/>
     </div>
     <div>
-      <iframe v-if="!edit" :key="key" style="width: 100%;min-height: 65vh" :src="resourceList[active].url"></iframe>
+      <iframe v-if="!edit && resourceList.length>0" :key="key" style="width: 100%;min-height: 65vh" :src="resourceList[active].url"></iframe>
       <RichTextComponent v-else :key="key"></RichTextComponent>
     </div>
   </div>

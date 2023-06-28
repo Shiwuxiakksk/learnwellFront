@@ -10,7 +10,7 @@
       <el-button icon="el-icon-arrow-right" @click="next" circle/>
     </div>
     <div>
-      <iframe style="width: 100%;min-height: 65vh" :src="resourceList[active].url"></iframe>
+      <iframe v-if="resourceList.length>0" style="width: 100%;min-height: 65vh" :src="resourceList[active].url"></iframe>
     </div>
   </div>
 </template>
