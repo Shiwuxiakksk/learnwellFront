@@ -94,6 +94,7 @@ export default {
           duration: 0,
           position: "bottom-right",
         });
+
       } else {
         this.$message.error("无法获取最新公告");
       }
