@@ -68,7 +68,7 @@ const routes = [
     component: () =>import('../views/teacher/CourseView')
   },
   {
-    path: '/teacher/courseLearn/:cid',
+    path: '/teacher/manage/:cid',
     name:'manage',
     component: () =>import('../views/teacher/Index')
   },
