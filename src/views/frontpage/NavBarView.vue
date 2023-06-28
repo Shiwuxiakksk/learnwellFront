@@ -65,6 +65,21 @@ export default {
     else this.loginType=false;
   },
   methods: {
+    toInfo(){
+      var targetRoute="";
+      if(localStorage.getItem("type")=="1"){
+        targetRoute = "/user/information/"+localStorage.getItem("studentId");
+      }
+      else if(localStorage.getItem("type")=="2"){
+        targetRoute = "/user/information/"+localStorage.getItem("teacherId");
+      }
+      else {
+        targetRoute = "/user/information/"+localStorage.getItem("Id");
+      }
+      if (this.$route.path !== targetRoute) {
+        this.$router.push(targetRoute);
+      }
+    },
     toTeacherHomework(){
       const targetRoute = "/teacher/homework";
       if (this.$route.path !== targetRoute) {
@@ -72,7 +87,7 @@ export default {
       }
     },
     toTeacherCourse() {
-      const targetRoute = "/teacher/Course/"+localStorage.getItem("id");
+      const targetRoute = "/teacher/Course/"+localStorage.getItem("teacherId");
       if (this.$route.path !== targetRoute) {
         this.$router.push(targetRoute);
       }
@@ -84,7 +99,7 @@ export default {
       }
     },
     toAddCourse(){
-      const targetRoute = "/teacher/addCourse/"+localStorage.getItem("id");
+      const targetRoute = "/teacher/addCourse/"+localStorage.getItem("teacherId");
       if (this.$route.path !== targetRoute) {
         this.$router.push(targetRoute);
       }
@@ -148,23 +163,8 @@ export default {
         this.$router.push(targetRoute);
       }
     },
-    toInfo(){
-      var targetRoute="";
-      if(localStorage.getItem("type")=="1"){
-         targetRoute = "/user/information/"+localStorage.getItem("studentId");
-      }
-      else if(localStorage.getItem("type")=="2"){
-        targetRoute = "/user/information/"+localStorage.getItem("teacherId");
-      }
-      else {
-        targetRoute = "/user/information/"+localStorage.getItem("Id");
-      }
-      if (this.$route.path !== targetRoute) {
-        this.$router.push(targetRoute);
-      }
-    },
     toCourse(){
-      const targetRoute = "/student/course/"+localStorage.getItem("id");
+      const targetRoute = "/student/course/"+localStorage.getItem("studentId");
       if (this.$route.path !== targetRoute) {
         this.$router.push(targetRoute);
       }
