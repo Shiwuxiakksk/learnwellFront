@@ -49,9 +49,6 @@
 
     <el-dialog :visible.sync="addDialogVisible" title="新增公告">
       <el-form :model="addForm" rules="rules">
-        <el-form-item label="课程编号">
-          <el-input v-model="addForm.courseId" readonly="true"></el-input>
-        </el-form-item>
         <el-form-item label="标题">
           <el-input v-model="addForm.title"></el-input>
         </el-form-item>
