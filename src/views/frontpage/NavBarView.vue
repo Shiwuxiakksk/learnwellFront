@@ -72,7 +72,7 @@ export default {
       }
     },
     toTeacherCourse() {
-      const targetRoute = "/teacher/Course/1";
+      const targetRoute = "/teacher/Course/"+localStorage.getItem("id");
       if (this.$route.path !== targetRoute) {
         this.$router.push(targetRoute);
       }
@@ -84,7 +84,7 @@ export default {
       }
     },
     toAddCourse(){
-      const targetRoute = "/teacher/addCourse/1";
+      const targetRoute = "/teacher/addCourse/"+localStorage.getItem("id");
       if (this.$route.path !== targetRoute) {
         this.$router.push(targetRoute);
       }
@@ -155,7 +155,7 @@ export default {
       }
     },
     toCourse(){
-      const targetRoute = "/student/course/100000";
+      const targetRoute = "/student/course/"+localStorage.getItem("id");
       if (this.$route.path !== targetRoute) {
         this.$router.push(targetRoute);
       }
