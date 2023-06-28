@@ -93,7 +93,7 @@
 
           <AuditComponent v-if="currentMenu == '1-4'" :description="description"/>
 
-          <StudentCommentView v-if="currentMenu == '1-5'"  :type="courseId" :user-id="studentId">
+          <StudentCommentView v-if="currentMenu == '1-5'"  :type="courseId">
 
           </StudentCommentView>
 

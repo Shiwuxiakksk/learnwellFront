@@ -39,30 +39,26 @@ import axios from "axios";
 export default {
   name: "StudentCommentView",
   props: {
-    userId: {
-      type: Number
-    },
     type: {
-      type: Number
+      required: true
     }
   },
   data() {
     return {
       addFormVisible: false,
       comments: [],
+      userId: 0,
       addForm: {
         //实际运行时需改为对应的课程编号
-        type: 200001,
+        type: this.type,
         content: undefined,
         //实际运行时需改为对应的用户编号
         userId: 23,
       },
-      queryForm: {
-        courseName: undefined,
-        content: undefined,
-      },
       pageBean: {
-        data: null,
+        data: {
+          courseId: this.type
+        },
         totalRows: -1,
         pageSize: 3,
         currentPage: 1,
@@ -78,7 +74,7 @@ export default {
   },
 
   mounted() {
-
+    this.userId = localStorage.getItem('id');
     this.handleFind();
   },
 
@@ -92,7 +88,6 @@ export default {
       this.getCount();
     },
     getCount() {
-      this.pageBean.data = this.queryForm;
       axios
           .post("http://localhost:8081/api/uc/count", this.pageBean)
           .then((res) => {
@@ -108,7 +103,6 @@ export default {
           });
     },
     getPagination() {
-      this.pageBean.data = this.queryForm;
       axios
           .post("http://localhost:8081/api/uc/page", this.pageBean)
           .then((res) => {
@@ -137,6 +131,7 @@ export default {
             type: "success",
             message: "添加成功",
           });
+          this.getCount();
           this.addForm.content = undefined;
         }
       });

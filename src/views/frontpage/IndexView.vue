@@ -91,7 +91,7 @@ export default {
           <p style="font-size: 12px; color: #999">${formattedTime}</p>
         `,
           dangerouslyUseHTMLString: true,
-          duration: 0,
+          duration: 20000,
           position: "bottom-right",
         });
 

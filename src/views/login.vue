@@ -1,5 +1,5 @@
 <template>
-    <div id="root" class="loginbox"> 
+    <div id="root" class="loginbox">
         <div class="c">
         <h5>欢迎登录明学在线学习平台</h5>
         <form method="post">
@@ -49,7 +49,7 @@ export default {
                         alert("登录成功");
                         console.log(response.data.data);
                         localStorage.setItem("token",response.data.data.token);
-
+                        localStorage.setItem("id",response.data.data.id);
                         if(response.data.data.type == "0"){
                             localStorage.setItem("Id",response.data.data.id);
                         }else if(response.data.data.type == "2"){
@@ -64,7 +64,7 @@ export default {
                         if(response.data.data.type ==0)this.$router.push("/admin");
                         else this.$router.push("/");
                     }
-                    else{alert(response.data.msg)} 
+                    else{alert(response.data.msg)}
                 }
                 else{alert("登录失败")}
             })

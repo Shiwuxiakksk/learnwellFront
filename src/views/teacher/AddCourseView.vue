@@ -132,14 +132,12 @@ export default {
           .then(resp => {
             if (resp.data.code === 200) {
               this.courseTeacher.courseId = resp.data.data;
-
               // Retrieve the userId from the current route's parameters
-              this.courseTeacher.userId = this.$route.params.tid;
-              axios.post("/api/ucr", this.courseTeacher)
+              axios.post("/api/ucr/addCourse", this.courseTeacher)
                   .then(response => {
                     if (response.data.code === 200) {
                       this.$message.success('添加成功！');
-                      this.$router.push("/teacher/Course/"+this.courseTeacher.userId);
+                      this.$router.push("/teacher/course/"+this.courseTeacher.userId);
                     } else {
                       this.$message.error('课程关联添加失败：' + response.data.msg);
                     }
@@ -160,6 +158,7 @@ export default {
   components: { NavBar
   },
   mounted() {
+    this.courseTeacher.userId = localStorage.getItem('teacherId');
     this.pictureAction = `${axios.defaults.baseURL}/api/file/upload`;
   },
 

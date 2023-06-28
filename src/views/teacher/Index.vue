@@ -106,7 +106,7 @@
             <AuditComponent :description="description" :key="key"/>
           </div>
 
-          <StudentCommentView v-if="currentMenu == '1-5'" :type="courseId" :user-id="teacherId"></StudentCommentView>
+          <StudentCommentView v-if="currentMenu == '1-5'" :type="courseId" ></StudentCommentView>
 
           <el-dialog title="添加公告" :visible.sync="dialogFormVisible">
             <el-form :model="annForm">

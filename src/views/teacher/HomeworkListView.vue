@@ -1,10 +1,13 @@
 <template>
   <div class="container">
-    <div class="up">
+    <div class="up" v-if="courseList.length>0">
       <el-button v-for="(course,idx) in courseList" type="primary" plain
                  :key="idx" @click="getHomeworkList(course.courseId)">
         {{ course.courseName }}
       </el-button>
+    </div>
+    <div class="up" v-else>
+      <span style="color: #B3C0D1">您还未开设授课</span>
     </div>
     <div class="down" v-if="openList">
       <el-timeline class="down-left" style="width: 100px">

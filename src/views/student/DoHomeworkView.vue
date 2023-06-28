@@ -164,6 +164,7 @@ export default {
         homeworkId: this.homeworkId,
         ans: this.answer
       }
+      this.answer=null;
       console.log(this.answerList)
       this.changeTo(this.activeQuestionIdx + 2)
     },
