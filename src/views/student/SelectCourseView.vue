@@ -84,7 +84,7 @@ export default {
         },
         addCourse(id){
             this.dataForm.courseId=parseInt(id);
-            this.dataForm.userId=parseInt(localStorage.getItem("id"))
+            this.dataForm.userId=parseInt(localStorage.getItem("studentId"))
             console.log(this.dataForm)
             this.$confirm('确定要选择这门课程吗').then(()=>{
                 axios.post('/api/ucr/addCourse',this.dataForm).then(res=>{

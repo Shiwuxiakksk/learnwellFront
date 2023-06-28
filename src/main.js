@@ -38,9 +38,9 @@ axios.interceptors.request.use(function(config) {
   console.log('err', error);
 })
 //
-localStorage.setItem('studentId','100000')
-localStorage.setItem('teacherId','100000')
-localStorage.setItem('avatar','http://1.15.248.74:9000/userbucket/6272642029977633.jpg')
+// localStorage.setItem('studentId','100000')
+// localStorage.setItem('teacherId','100000')
+//localStorage.setItem('avatar','http://1.15.248.74:9000/userbucket/6272642029977633.jpg')
 
 new Vue({
   router,

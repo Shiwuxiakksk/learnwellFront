@@ -3,14 +3,16 @@
       <el-card>
         <el-descriptions class="margin-top" title="简介" :column="2" border>
           <template slot="extra">
-            <el-button type="button" v-if="$route.params.id==this.data.id" size="small" @click="Visiable = true">修改</el-button>
+            <el-button type="button" v-if="this.$route.params.id==this.localId" size="small" @click="Visiable = true">修改</el-button>
           </template>
           <el-descriptions-item>
             <template slot="label">
               <i class="el-icon-picture-outline"></i>
               头像
             </template>
-            <img class="img" :src="data.avatar" alt="" />
+
+            <img class="img" :src="data.avatar" alt=""/>
+
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">
@@ -147,12 +149,14 @@ import axios from "axios";
           label: '女'
         }],
         value:"",
+        localId:"",
         Visiable: false,
       };
     },
     mounted() {
       this.pictureAction = `${axios.defaults.baseURL}/api/file/upload/`;
       this.load();
+      this.localId=localStorage.getItem("studentId")
     },
     methods: {
       load() {
@@ -189,10 +193,12 @@ import axios from "axios";
         axios.put("/user/updateUser", this.dataForm)
             .then(resp => {
               if (resp.data.code === 200) {
+                console.log(resp.data)
                 this.$message.success('修改成功！');
                 this.Visiable = false;
+                localStorage.setItem("token",resp.data.data.token);
               } else {
-                this.$message.error('修改失败：' + resp.data.msg)
+                this.$message.error(resp.data.msg)
               }
               this.load();
         })
