@@ -92,7 +92,14 @@
                 <el-input v-model="dataForm.age" type="text" placeholder="请输入年龄"></el-input>
               </el-form-item>
               <el-form-item label="sex" prop="sex">
-                <el-input v-model="data.sex" type="text" placeholder="请输入性别"></el-input>
+                <el-select v-model="dataForm.sex" placeholder="请选择">
+                  <el-option
+                    v-for="item in sex"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
               </el-form-item>
             <el-button @click="Visiable = false">取消</el-button>
             <el-button type="primary" @click="submitForm">确定</el-button>
@@ -132,7 +139,14 @@ import axios from "axios";
           sex:String,
           password:""
         },
-        
+        sex:[{
+          value: '男',
+          label: '男'
+        }, {
+          value: '女',
+          label: '女'
+        }],
+        value:"",
         Visiable: false,
       };
     },
