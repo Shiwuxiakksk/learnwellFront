@@ -72,7 +72,7 @@
             </el-row>
           </div>
 
-          <ResourceLearnView v-else-if="currentMenu == '1-2'" :course-id="courseId"
+          <ResourceLearnView v-if="currentMenu == '1-2'" :course-id="courseId"
                              style="min-height: 80vh;"></ResourceLearnView>
 
           <div v-if="currentMenu == '1-3'">
@@ -82,7 +82,7 @@
               <el-table-column prop="endTime" label="结束时间" width="180"></el-table-column>
               <el-table-column label="操作" width="180">
                 <template slot-scope="scope">
-                  <el-button v-if="homeworkFinished[scope.$index]" @click="doHomework(scope.row)" type="text"
+                  <el-button v-if="homeworkFinished[scope.$index]" @click="doHomework(scope.row.id)" type="text"
                              size="small">查看
                   </el-button>
                   <el-button v-else @click="doHomework(scope.row.id)" type="text" size="small">去完成</el-button>
@@ -212,6 +212,12 @@ export default {
   mounted() {
     this.courseId = this.$route.params.cid
     this.studentId = localStorage.getItem('studentId');
+    // axios.get(`/user/getUser/${this.studentId}`)
+    // .then(resp=>{
+    //   if(resp.data.code === 200){
+    //
+    //   }
+    // })
     this.avatar = localStorage.getItem('avatar');
     this.getCourse();
     this.getAnnounce();

@@ -34,6 +34,11 @@ const routes = [
     component: () =>import('../views/Register')
   },
   {
+    path:'/info/:id',
+    name:'info',
+    component: () =>import('../views/user/Info.vue')
+  },
+  {
     path: '/user/information/:id',
     name:'Personal',
     component: () =>import('../views/user/InformationView')
@@ -44,7 +49,7 @@ const routes = [
     component: () =>import('../views/user/Info')
   },
   {
-    path: '/selectCourse',
+    path: '/course/selectCourse',
     name:'course',
     component: () =>import('../views/student/SelectCourseView')
   },
@@ -63,7 +68,7 @@ const routes = [
     component: () =>import('../views/teacher/CourseView')
   },
   {
-    path: '/teacher/manage/:cid',
+    path: '/teacher/courseLearn/:cid',
     name:'manage',
     component: () =>import('../views/teacher/Index')
   },
@@ -83,10 +88,10 @@ const routes = [
     component: () =>import('../views/teacher/AddCourseView')
   },
   {
-        path: '/',
-        name: 'front',
-        component: () =>import('../views/frontpage/IndexView.vue')
-    },{
+    path: '/',
+    name: 'front',
+    component: () =>import('../views/frontpage/IndexView.vue')
+  },{
     path: '/test',
     name: 'test',
     component: ()=>import('../views/student/StuComm')
@@ -94,9 +99,9 @@ const routes = [
 ]
 
 const router = new VueRouter({
-    mode: 'history',
-    base: process.env.BASE_URL,
-    routes
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes
 })
 
 export default router
