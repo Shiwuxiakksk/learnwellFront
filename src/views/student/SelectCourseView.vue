@@ -20,7 +20,7 @@
               <img :src="course.cover" alt="课程封面" @click="toCourseLearn(course.id)">
             </div>
             <div class="course-details">
-              <h4 class="course-title">{{course.intro}}</h4>
+              <h4 class="double-line">{{course.intro}}</h4>
               <el-button @click="addCourse(course.id)">学习</el-button>
             </div>
           </div>
@@ -167,6 +167,12 @@ export default {
     font-size: 18px;
     font-weight: bold;
   }
-
+  .double-line {
+    word-break: break-all;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
 
 </style>
