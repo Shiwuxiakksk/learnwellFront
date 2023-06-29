@@ -182,7 +182,7 @@ import axios from "axios";
             this.dataForm.age = res.data.data.age;
             this.dataForm.name = res.data.data.name;
             this.dataForm.sex = res.data.data.sex;
-
+            localStorage.setItem('avatar',res.data.data.avatar);
           })
           .catch((err) => {
             console.log(err);
