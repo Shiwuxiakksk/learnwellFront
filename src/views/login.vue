@@ -6,7 +6,8 @@
             uid：<input placeholder="请输入uid" type="text" class="input" required="true" v-model="uid" > <br>
             密码：<input placeholder="请输入密码" type="password" class="input" required="true" v-model="password"> <br>
             <button type="submit" @click.prevent="login()" :disabled="!canSubmit">登录</button>
-            <a href="Register">注册</a>
+            <button  @click.prevent="register()">注册</button>
+
         </form></div>
     </div>
 </template>
@@ -69,6 +70,9 @@ export default {
                 else{alert("登录失败")}
             })
         },
+        register(){
+            this.$router.push('/register')
+        }
     }
 }
 </script>

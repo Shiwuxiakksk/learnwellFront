@@ -88,7 +88,7 @@ export default {
       }
     },
     toTeacherCourse() {
-      const targetRoute = "/teacher/Course/"+localStorage.getItem("teacherId");
+      const targetRoute = "/teacher/course/"+localStorage.getItem("teacherId");
       if (this.$route.path !== targetRoute) {
         this.$router.push(targetRoute);
       }
@@ -115,12 +115,14 @@ export default {
         this.activeIndex = '3';
       } else if (routePath.includes('/register')) {
         this.activeIndex = '4';
-      } else if (routePath.includes('/student/selectCourse')) {
+      } else if (routePath.includes('/course/selectCourse')) {
         this.activeIndex = '3';
       } else if (routePath.includes('/teacher/addCourse')) {
         this.activeIndex = '2-1';
-      } else if (routePath.includes('/teacher/Course')) {
+      } else if (routePath.includes('/teacher/course')) {
         this.activeIndex = '2-2';
+      }else if (routePath.includes('/user/information')) {
+        this.activeIndex = '4-1';
       } else {
         this.activeIndex = '1';
       }

@@ -55,9 +55,9 @@ export default {
   data() {
     return {
       activeIndex: '1',
-      isLogin:true,
+      isLogin:false,
       // loginType:true,
-      loginType:true,
+      loginType:false,
       imgwrap:[
         'http://1.15.248.74:9000/frontpagebucket/lunbo1.jpg',
         'http://1.15.248.74:9000/frontpagebucket/lunbo2.jpg',

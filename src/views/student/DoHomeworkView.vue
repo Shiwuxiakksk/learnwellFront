@@ -151,6 +151,7 @@ export default {
         return;
       }
       this.answer = null;
+      this.answers = [false,false,false,false];
       this.activeQuestionIdx = index - 1;
       this.activeQuestion = this.questions[this.activeQuestionIdx];
     },
