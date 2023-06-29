@@ -81,7 +81,7 @@
     </el-dialog>
   </div>
 </template>
-  
+
   <script>
 import axios from "axios";
 export default {
@@ -137,7 +137,7 @@ export default {
     },
     handleAdd() {
       axios
-        .post("http://localhost:8081/api/announce/addAnno", this.addForm)
+        .post("/api/announce/addAnno", this.addForm)
         .then((res) => {
           if (res.data.code != 200) {
             this.$message.error(res.data.msg);
@@ -160,7 +160,7 @@ export default {
       })
         .then(() => {
           axios
-            .delete("http://localhost:8081/api/announce/deleteAnno/" + row.id)
+            .delete("/api/announce/deleteAnno/" + row.id)
             .then((res) => {
               if (res.data.code == 200) {
                 this.$message({
@@ -184,7 +184,7 @@ export default {
     handleModify(index, row) {
       this.modifyDialogVisible = true;
       axios
-        .get("http://localhost:8081/api/announce/queryById/" + row.id)
+        .get("/api/announce/queryById/" + row.id)
         .then((res) => {
           if (res.data.code == 200) {
             this.modifyForm = res.data.data;
@@ -195,7 +195,7 @@ export default {
     },
     modify() {
       axios
-        .put("http://localhost:8081/api/announce/update", this.modifyForm)
+        .put("/api/announce/update", this.modifyForm)
         .then((res) => {
           if (res.data.code == 200) {
             this.modifyDialogVisible = false;
@@ -213,7 +213,7 @@ export default {
     getPagination() {
       this.pageBean.data = this.queryForm;
       axios
-        .post("http://localhost:8081/api/announce/page", this.pageBean)
+        .post("/api/announce/page", this.pageBean)
         .then((res) => {
           if (res.data.code == 200) {
             this.announces = res.data.data;
@@ -225,7 +225,7 @@ export default {
     getCount() {
       this.pageBean.data = this.queryForm;
       axios
-        .post("http://localhost:8081/api/announce/count", this.pageBean)
+        .post("/api/announce/count", this.pageBean)
         .then((res) => {
           if (res.data.code == 200) {
             this.pageBean = res.data.data;
@@ -247,7 +247,7 @@ export default {
   },
 };
 </script>
-  
+
   <style scoped>
 .pagination-wrapper {
   position: fixed;

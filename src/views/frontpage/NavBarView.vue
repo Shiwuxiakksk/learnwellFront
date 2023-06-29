@@ -58,6 +58,7 @@ export default {
       console.log(localStorage.getItem("type"))
       if(localStorage.getItem("type")==="" || localStorage.getItem("type")=="null"){
         this.isLogin=false;
+        this.isLogin=false;
       }
       else this.isLogin=true;
 
@@ -131,6 +132,8 @@ export default {
           this.$message.success('退出成功')
           localStorage.setItem("token","");
           localStorage.setItem("id","");
+          localStorage.setItem("teacherId","");
+          localStorage.setItem("studentId","");
           localStorage.setItem("type","");
           this.$router.push("/login");
         }

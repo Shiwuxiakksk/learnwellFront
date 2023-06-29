@@ -89,7 +89,7 @@ export default {
     },
     getCount() {
       axios
-          .post("http://localhost:8081/api/uc/count", this.pageBean)
+          .post("/api/uc/count", this.pageBean)
           .then((res) => {
             if (res.data.code == 200) {
               this.pageBean = res.data.data;
@@ -104,7 +104,7 @@ export default {
     },
     getPagination() {
       axios
-          .post("http://localhost:8081/api/uc/page", this.pageBean)
+          .post("/api/uc/page", this.pageBean)
           .then((res) => {
             if (res.data.code == 200) {
               console.log(this.comments);
@@ -124,7 +124,7 @@ export default {
       this.getPagination();
     },
     handleAdd() {
-      axios.post("http://localhost:8081/api/uc", this.addForm).then((res) => {
+      axios.post("/api/uc", this.addForm).then((res) => {
         if (res.data.code == 200) {
           this.addFormVisible = false;
           this.$message({
@@ -133,6 +133,8 @@ export default {
           });
           this.getCount();
           this.addForm.content = undefined;
+        } else {
+          this.$message.error('发送了错误！'+resp.data.msg);
         }
       });
     },

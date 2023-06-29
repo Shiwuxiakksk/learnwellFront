@@ -100,7 +100,14 @@ export default {
   },
   methods: {
     submit(){
-      const blob = new Blob([this.content], { type: 'text/html'});
+      let content = `<!DOCTYPE html>
+            <html lang="">
+            <head title="${this.name}"> <meta charset="UTF-8"> </head>
+            <body>
+                ${this.content}
+            </body>
+            </html>`
+      const blob = new Blob([content], { type: 'text/html'});
       const file = new File([blob], 'richtext.html', { type: 'text/html' });
       let formData = new FormData();
       formData.append('file',file);

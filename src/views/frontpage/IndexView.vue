@@ -75,30 +75,41 @@ export default {
     },
   },
   mounted() {
-    axios.get("/api/announce/getEarliestGlobalAnno").then((res) => {
-      if (res.data.code == 200) {
-        console.log(res.data.data);
-        const date = new Date(res.data.data.createTime);
-        const formattedTime = `${date.getFullYear()}-${padZero(
-          date.getMonth() + 1
-        )}-${padZero(date.getDate())} ${padZero(date.getHours())}:${padZero(
-          date.getMinutes()
-        )}:${padZero(date.getSeconds())}`;
-        this.$notify({
-          title: "最新公告",
-          message: `
+    console.log(localStorage.getItem("type"))
+    if(localStorage.getItem("type")==="" || localStorage.getItem("type")=="null"){
+      this.isLogin=false;
+      this.isLogin=false;
+    }
+    else this.isLogin=true;
+    if(localStorage.getItem("type")==2) this.loginType=true;
+    else this.loginType=false;
+    if(this.isLogin){
+      axios.get("/api/announce/getEarliestGlobalAnno").then((res) => {
+        if (res.data.code == 200) {
+          console.log(res.data.data);
+          const date = new Date(res.data.data.createTime);
+          const formattedTime = `${date.getFullYear()}-${padZero(
+              date.getMonth() + 1
+          )}-${padZero(date.getDate())} ${padZero(date.getHours())}:${padZero(
+              date.getMinutes()
+          )}:${padZero(date.getSeconds())}`;
+          this.$notify({
+            title: "最新公告",
+            message: `
           <p>${res.data.data.title}: ${res.data.data.content}</p>
           <p style="font-size: 12px; color: #999">${formattedTime}</p>
         `,
-          dangerouslyUseHTMLString: true,
-          duration: 20000,
-          position: "bottom-right",
-        });
+            dangerouslyUseHTMLString: true,
+            duration: 20000,
+            position: "bottom-right",
+          });
 
-      } else {
-        this.$message.error("无法获取最新公告");
-      }
-    });
+        } else {
+          this.$message.error("无法获取最新公告");
+        }
+      });
+    }
+
   },
   components: { NavBar },
 };

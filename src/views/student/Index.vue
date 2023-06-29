@@ -78,7 +78,7 @@
           <div v-if="currentMenu == '1-3'">
             <el-table :data="homeworkList" style="width: 100%" :row-class-name="tableRowClassName">
               <el-table-column prop="title" label="名称" width="180"></el-table-column>
-              <el-table-column prop="startTime" label="开始事件" width="180"></el-table-column>
+              <el-table-column prop="startTime" label="开始时间" width="180"></el-table-column>
               <el-table-column prop="endTime" label="结束时间" width="180"></el-table-column>
               <el-table-column label="操作" width="180">
                 <template slot-scope="scope">

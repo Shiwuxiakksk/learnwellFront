@@ -1,7 +1,7 @@
 <template>
   <el-container style="overflow-y: hidden">
     <el-aside width="200px" style="background-color: rgb(238, 241, 246); height: 95vh">
-      <el-menu @select="handleSelect" :default-openeds="['1', '2']">
+      <el-menu @select="handleSelect" :default-openeds="['1', '2', '3']">
         <el-submenu index="1" style="background-color: #D3DCE6;">
           <template slot="title"><i class="el-icon-menu"></i>用户管理</template>
           <el-menu-item index="2-3">用戶管理</el-menu-item>
