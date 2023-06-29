@@ -156,7 +156,9 @@ import axios from "axios";
     mounted() {
       this.pictureAction = `${axios.defaults.baseURL}/api/file/upload/`;
       this.load();
-      this.localId=localStorage.getItem("studentId")
+      if(localStorage.getItem("studentId")!="")this.localId=localStorage.getItem("studentId")
+      else if(localStorage.getItem("teacherId")!="") this.localId=localStorage.getItem("teacherId")
+      else this.localId=localStorage.getItem("Id")
     },
     methods: {
       load() {
