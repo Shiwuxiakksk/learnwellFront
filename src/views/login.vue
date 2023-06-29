@@ -59,7 +59,7 @@ export default {
                         else{
                             localStorage.setItem("studentId",response.data.data.id);
                         }
-
+                        localStorage.setItem('avatar',response.data.data.avater);
                         localStorage.setItem("type",response.data.data.type);
                         console.log()
                         if(response.data.data.type ==0)this.$router.push("/admin");

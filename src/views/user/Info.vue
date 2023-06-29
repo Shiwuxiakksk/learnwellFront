@@ -156,7 +156,9 @@ import axios from "axios";
     mounted() {
       this.pictureAction = `${axios.defaults.baseURL}/api/file/upload/`;
       this.load();
-      this.localId=localStorage.getItem("studentId")
+      if(localStorage.getItem("studentId")!="")this.localId=localStorage.getItem("studentId")
+      else if(localStorage.getItem("teacherId")!="") this.localId=localStorage.getItem("teacherId")
+      else this.localId=localStorage.getItem("Id")
     },
     methods: {
       load() {
@@ -180,7 +182,7 @@ import axios from "axios";
             this.dataForm.age = res.data.data.age;
             this.dataForm.name = res.data.data.name;
             this.dataForm.sex = res.data.data.sex;
-
+            localStorage.setItem('avatar',res.data.data.avatar);
           })
           .catch((err) => {
             console.log(err);

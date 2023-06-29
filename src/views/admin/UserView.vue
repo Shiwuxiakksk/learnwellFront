@@ -38,7 +38,13 @@
         <el-table-column label="密码" align="center" prop="password" ></el-table-column>
         <el-table-column label="性別" align="center" prop="sex" ></el-table-column>
         <el-table-column label="年齡" align="center" prop="age" ></el-table-column>
-        <el-table-column label="权限" align="center" prop="type" ></el-table-column>
+        <el-table-column label="权限" align="center" prop="type" >
+          <template slot-scope="scope">
+            <span v-if="scope.row.type == '1'">学生</span>
+            <span  v-else-if="scope.row.type == '2'">教师</span>
+            <span  v-else-if="scope.row.type == '0'">管理员</span>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
           <template slot-scope="scope">
             <el-button
@@ -100,10 +106,24 @@
                 <el-input v-model="dataForm.age" type="text" placeholder="请输入年龄"></el-input>
               </el-form-item>
               <el-form-item label="sex" prop="sex">
-                <el-input v-model="dataForm.sex" type="text" placeholder="请输入性别"></el-input>
+                <el-select v-model="dataForm.sex" placeholder="请选择">
+                  <el-option
+                    v-for="item in sex"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
               </el-form-item>
               <el-form-item label="type" prop="type">
-                <el-input v-model="dataForm.type" type="text" placeholder="请输入权限"></el-input>
+                <el-select v-model="dataForm.type" placeholder="请选择">
+                  <el-option
+                    v-for="item in auths"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
               </el-form-item>
             <el-button @click="Visiable = false">取消</el-button>
             <el-button type="primary" @click="submitForm">确定</el-button>
@@ -150,6 +170,25 @@
             pageSize: 5,
             currentPage: 1,
         },
+        sex:[{
+          value: '男',
+          label: '男'
+        }, {
+          value: '女',
+          label: '女'
+        }],
+        auths:[{
+          value: '0',
+          label: '管理员'
+        }, {
+          value: '1',
+          label: '学生'
+        },{
+          value: '2',
+          label: '教师'
+        }
+      ],
+        value:"",
         // 表单参数
         form: {},
         data:{
