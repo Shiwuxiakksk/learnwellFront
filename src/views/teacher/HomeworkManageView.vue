@@ -176,7 +176,7 @@
       </el-row>
       <div slot="footer">
         <el-button @click="cancel">取消</el-button>
-        <el-button type="primary" @click="submitForm">确定</el-button>
+        <el-button type="primary" @click="addNewQuestion">确定</el-button>
       </div>
     </el-dialog>
 
@@ -310,6 +310,16 @@ export default {
           this.cancel();
         } else {
           this.$message.error('保存失败！'+resp.data.msg)
+        }
+      })
+    },
+    addNewQuestion(){
+      axios.post("/api/question",this.formData)
+      .then(resp=>{
+        if(resp.data.code === 200){
+          this.$message.success('添加成功！');
+          this.open=false;
+          this.searchQuestions();
         }
       })
     },

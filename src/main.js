@@ -28,8 +28,8 @@ Vue.component(VeHistogram.name,VeHistogram)
 
 Vue.prototype.$http=axios
 Vue.use(axios)
-axios.defaults.baseURL = 'http://localhost:8081';
-// axios.defaults.baseURL = 'http://1.15.248.74:8081';
+// axios.defaults.baseURL = 'http://localhost:8081';
+axios.defaults.baseURL = 'http://1.15.248.74:8081';
 // axios.defaults.withCredentials = true;
 axios.interceptors.request.use(function(config) {
   config.headers.authorization = localStorage.getItem("token");
@@ -38,7 +38,7 @@ axios.interceptors.request.use(function(config) {
 }, function(error) {
   console.log('err', error);
 })
-localStorage.setItem('avatar','http://1.15.248.74:9000/userbucket/6272642029977633.jpg')
+// localStorage.setItem('avatar','http://1.15.248.74:9000/userbucket/6272642029977633.jpg')
 
 new Vue({
   router,

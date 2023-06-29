@@ -21,7 +21,7 @@
 
       <el-container>
         <el-header style="text-align: right; font-size: 12px">
-          <el-dropdown>
+          <el-dropdown @command="handleCommand">
             <el-avatar size="medium" :src="avatar" style="margin-top: 15px"/>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>退出</el-dropdown-item>
@@ -168,6 +168,26 @@ export default {
   methods: {
     handleSelect(index) {
       this.currentMenu = index;
+    },
+    handleCommand(){
+      this.$confirm('确定要退出吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        axios.post("/user/loginOut").then(res=>{
+          console.log(res.data);
+          if(res.data.code==200){
+            this.$message.success('退出成功')
+            localStorage.setItem("token","");
+            localStorage.setItem("id","");
+            localStorage.setItem("type","");
+            this.$router.push("/login");
+          }
+        })
+      }).catch((e) => {
+        console.log(e)
+      });
     },
     getCourse() {
       axios.get(`/api/course/${this.courseId}`)

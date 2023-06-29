@@ -32,13 +32,13 @@
                    layout="sizes, prev, pager, next"
                    :total="pageBean.totalRows"
                    :page-size="pageBean.pageSize"
-                   :page-sizes="[5, 10, 20, 100]"
+                   :page-sizes="[3, 6, 9, 100]"
                    @size-change="handleSizeChange"
                    @current-change="handleCurrentChange"
     >
     </el-pagination>
     </div>
-</template> 
+</template>
 
 <script>
 
@@ -57,7 +57,7 @@ export default {
             pageBean: {
                 data: null,
                 totalRows: -1,
-                pageSize: 8,
+                pageSize: 3,
                 currentPage: 1,
             },
             queryParams: {
@@ -108,7 +108,7 @@ export default {
             axios.post("/api/course/page", this.pageBean).then(resp => {
                 if (resp.data.code === 200) {
                     this.courseList = resp.data.data
-                } 
+                }
                 else {
                 this.$message.error(resp.data.msg)
             }
@@ -142,7 +142,7 @@ export default {
     flex-wrap: wrap;
     justify-content: center;
   }
-  
+
   .course-item {
     width: 300px;
     margin: 10px;
@@ -152,21 +152,21 @@ export default {
     display: flex;
     align-items: center;
   }
-  
+
   .course-cover img {
     width: 100%;
     height: auto;
   }
-  
+
   .course-details {
     margin-left: 10px;
   }
-  
+
   .course-title {
     margin: 0 0 10px;
     font-size: 18px;
     font-weight: bold;
   }
-  
-  
+
+
 </style>

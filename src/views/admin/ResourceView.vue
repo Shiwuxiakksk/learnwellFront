@@ -12,11 +12,9 @@
       </el-form-item>
       <el-button @click="query">查询</el-button>
     </el-form>
-    <el-button @click="addFormVisible = true">添加资源</el-button>
     <el-table :data="resource" style="width: 100%">
       <el-table-column prop="name" label="资源名称"></el-table-column>
-      <el-table-column prop="type" label="资源类型"></el-table-column>
-      <el-table-column prop="url" label="内容"></el-table-column>
+      <el-table-column prop="url" label="内容链接"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
@@ -46,52 +44,23 @@
       @current-change="handleCurrentChange"
     ></el-pagination>
 
-    <el-dialog :visible.sync="addFormVisible" title="添加资源">
-      <el-form :model="addForm">
-        <el-form-item label="资源名称">
-          <el-input v-model="addForm.name"></el-input>
-        </el-form-item>
-        <el-form-item label="资源类型">
-          <el-radio-group v-model="addForm.type">
-            <el-radio label="text">文本</el-radio>
-            <el-radio label="video">视频</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="文件">
-          <el-upload
-            :action="resourceAction"
-            multiple="false"
-            :file-list="fileList"
-            :on-preview="handlePreview"
-            :before-remove="beforeRemove"
-            :on-remove="handleRemove"
-            :on-success="afterUpload"
-          >
-            <el-button size="small" type="primary">点击上传</el-button>
-          </el-upload>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="addFormVisible = false">取消</el-button>
-        <el-button @click="handleAdd">提交</el-button>
-      </span>
-    </el-dialog>
 
     <el-dialog :visible.sync="modifyFormVisible" title="修改资源信息">
       <el-form :model="modifyForm">
         <el-form-item label="资源名称">
           <el-input v-model="modifyForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="资源类型">
-          <el-radio-group v-model="modifyForm.type">
-            <el-radio label="text">文本</el-radio>
-            <el-radio label="video">视频</el-radio>
-          </el-radio-group>
-        </el-form-item>
         <el-form-item label="文件">
-          <el-upload :action="resourceAction" 
-                      multiple="false" 
-                      name="">
+          <el-upload ref="picture"
+                     class="upload-demo"
+                     :action="resourceAction"
+                     :multiple="false"
+                     name="file"
+                     :data="dataPart"
+                     :on-success="afterUpload"
+                     list-type="picture"
+                     :file-list="fileList"
+                     accept="image/*">
             <el-button size="small" type="primary">点击上传</el-button>
           </el-upload>
         </el-form-item>
@@ -114,12 +83,15 @@ export default {
       addFormVisible: false,
       modifyFormVisible: false,
       resource: [],
-      fileList: undefined,
+      fileList: [],
       pageBean: {
         data: null,
         totalRows: -1,
         pageSize: 5,
         currentPage: 1,
+      },
+      dataPart: {
+        'bucketName': 'resourcebucket'
       },
       addForm: {
         name: undefined,
@@ -140,6 +112,7 @@ export default {
   },
 
   mounted() {
+    this.resourceAction = `${axios.defaults.baseURL}/api/file/upload`;
     this.handleFind();
   },
 
@@ -260,7 +233,7 @@ export default {
         this.fileList=res.data
       }
     },
-    
+
   },
 };
 </script>
