@@ -200,7 +200,7 @@
             this.Visiable = false;
             this.dataForm.userId=null;
             this.dataForm.courseId=null;
-            this.$message.error('选课成功')
+            this.$message.success('选课成功')
           } else {
             this.$message.error('选课失败'+resp.data.msg)
           }
